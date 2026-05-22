@@ -1,0 +1,1115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>企业家精神的四个阶段</title>
+<meta name="description" content="从立身到平天下:一个关于成长、思想、与所做之事的框架。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ====== Reset ====== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{min-height:100vh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+button{background:none;border:0;cursor:pointer;color:inherit;font:inherit}
+::selection{background:var(--accent);color:#fff}
+
+/* ====== Theme tokens ====== */
+:root{
+  --bg:#FAFAF7;
+  --text:#1A1A1A;
+  --muted:#666666;
+  --accent:#C04A1F;
+  --line:#E5E5E0;
+  --card:#FFFFFF;
+  --card-2:#F4F3EE;
+  --shadow:0 1px 2px rgba(20,20,20,.04),0 8px 24px rgba(20,20,20,.05);
+  --serif:'Noto Serif SC',ui-serif,Georgia,serif;
+  --sans:'Inter','PingFang SC','Hiragino Sans GB',sans-serif;
+  --display:'Space Grotesk','Inter',sans-serif;
+}
+:root[data-theme="dark"]{
+  --bg:#0F0F0E;
+  --text:#E8E8E3;
+  --muted:#888888;
+  --accent:#E07A55;
+  --line:#2A2A28;
+  --card:#1A1A18;
+  --card-2:#221F1C;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F0F0E; --text:#E8E8E3; --muted:#888888; --accent:#E07A55;
+    --line:#2A2A28; --card:#1A1A18; --card-2:#221F1C;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.35);
+  }
+}
+
+html,body{
+  background:var(--bg); color:var(--text);
+  font-family:var(--serif);
+  font-size:17px; line-height:1.8;
+  transition: background-color .4s ease, color .4s ease;
+}
+@media (max-width:640px){ html,body{font-size:16px} }
+
+/* ====== Progress bar ====== */
+.progress{
+  position:fixed; top:0; left:0; right:0; height:2px;
+  background:transparent; z-index:100; pointer-events:none;
+}
+.progress > span{
+  display:block; height:100%; width:0;
+  background:var(--accent);
+  transition:width .08s linear;
+}
+
+/* ====== Top bar ====== */
+.topbar{
+  position:fixed; top:0; left:0; right:0;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 22px 12px;
+  font-family:var(--display); font-size:13px;
+  letter-spacing:.04em; color:var(--muted);
+  z-index:90;
+  background:linear-gradient(to bottom,var(--bg) 60%,transparent);
+  transition:background-color .4s ease,color .4s ease;
+}
+.brand{ font-weight:600; color:var(--text); letter-spacing:.06em; }
+.theme-toggle{
+  width:34px; height:34px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  border:1px solid var(--line);
+  transition:transform .2s ease,border-color .3s ease,background-color .3s ease;
+}
+.theme-toggle:hover{ transform:rotate(20deg); border-color:var(--accent); }
+.theme-toggle svg{ width:16px; height:16px; }
+.theme-toggle .icon-moon{display:none}
+:root[data-theme="dark"] .theme-toggle .icon-sun{display:none}
+:root[data-theme="dark"] .theme-toggle .icon-moon{display:block}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun{display:none}
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon{display:block}
+}
+
+/* ====== Layout ====== */
+.page{ max-width:680px; margin:0 auto; padding:140px 28px 120px; }
+@media (max-width:640px){ .page{ padding:96px 22px 80px; } }
+
+/* ====== Hero ====== */
+.hero{ margin-bottom:5rem; }
+.hero .eyebrow{
+  font-family:var(--display);
+  font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:1.4rem;
+}
+.hero h1{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:clamp(34px,5vw,52px);
+  line-height:1.18; letter-spacing:-.01em;
+  margin-bottom:1.2rem;
+}
+.hero .subtitle{
+  font-family:var(--serif);
+  font-size:clamp(17px,1.6vw,19px);
+  color:var(--muted); line-height:1.7;
+  max-width:560px;
+}
+.hero .meta{
+  display:flex; gap:1.2rem; align-items:center;
+  margin-top:2.4rem; padding-top:1.4rem;
+  border-top:1px solid var(--line);
+  font-family:var(--display);
+  font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted);
+}
+.hero .meta .dot{ width:4px; height:4px; border-radius:50%; background:var(--muted); opacity:.5; }
+
+/* ====== Section ====== */
+section{ margin-top:6rem; scroll-margin-top:80px; }
+@media (max-width:640px){ section{ margin-top:4rem; } }
+
+.section-num{
+  font-family:var(--display);
+  font-size:12px; letter-spacing:.22em;
+  color:var(--accent); text-transform:uppercase;
+  margin-bottom:1rem;
+}
+h2{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:clamp(26px,3.4vw,34px);
+  line-height:1.3; letter-spacing:-.005em;
+  margin-bottom:2rem;
+  position:relative;
+}
+h2 .anchor{
+  position:absolute; left:-1.6em; top:.15em;
+  opacity:0; color:var(--muted);
+  font-family:var(--display); font-weight:400;
+  font-size:.55em; padding:.2em;
+  transition:opacity .2s ease,color .2s ease;
+}
+h2:hover .anchor{ opacity:.6; }
+h2 .anchor:hover{ color:var(--accent); opacity:1; }
+@media (max-width:780px){ h2 .anchor{ display:none; } }
+
+h3{
+  font-family:var(--serif);
+  font-weight:600;
+  font-size:1.22em;
+  line-height:1.45;
+  margin:2.6rem 0 .9rem;
+  letter-spacing:.005em;
+}
+h4{
+  font-family:var(--display);
+  font-weight:600;
+  font-size:.85em; letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:2.2rem 0 .8rem;
+}
+
+p{ margin-bottom:1.5em; }
+p + h3, p + h4{ margin-top:2.6rem; }
+
+strong{ font-weight:600; color:var(--text); }
+em{ font-style:italic; color:var(--muted); }
+
+/* Emphasized inline accent for **bold** phrases that act as key concepts */
+.accent{ color:var(--accent); font-weight:600; }
+
+/* Pull-quote / key line with left bar */
+.keyline{
+  display:block; position:relative;
+  margin:2.4rem 0; padding:.4em 0 .4em 1.2em;
+  border-left:3px solid var(--accent);
+  font-size:1.1em; font-weight:600;
+  color:var(--text);
+  line-height:1.55;
+}
+
+ul{ margin:0 0 1.5em 0; padding:0; list-style:none; }
+ul li{
+  position:relative;
+  padding-left:1.4em;
+  margin-bottom:.6em;
+}
+ul li::before{
+  content:""; position:absolute;
+  left:.2em; top:.85em;
+  width:.5em; height:1px; background:var(--accent); opacity:.7;
+}
+
+hr{
+  border:0; height:1px;
+  background:linear-gradient(to right,transparent,var(--line),transparent);
+  margin:4rem auto; width:60%;
+}
+
+/* ====== Four-stage interactive ====== */
+.stages{
+  margin:2.4rem 0 1rem;
+  display:flex; flex-direction:column; gap:1rem;
+  position:relative;
+}
+.stages::before{
+  content:""; position:absolute;
+  left:1.1rem; top:0; bottom:0; width:1px;
+  background:linear-gradient(to bottom,
+    transparent, var(--accent) 8%, var(--accent) 92%, transparent);
+  opacity:.35;
+}
+.stage{
+  position:relative;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:1.4rem 1.6rem 1.4rem 3rem;
+  box-shadow:var(--shadow);
+  transition:border-color .3s ease,background-color .3s ease,transform .3s ease;
+  cursor:pointer;
+}
+.stage:hover{ border-color:var(--accent); }
+.stage .marker{
+  position:absolute; left:.55rem; top:1.55rem;
+  width:1.1rem; height:1.1rem; border-radius:50%;
+  background:var(--bg);
+  border:2px solid var(--accent);
+  z-index:1;
+  transition:background-color .3s ease,transform .3s ease;
+}
+.stage[aria-expanded="true"] .marker{ background:var(--accent); transform:scale(1.15); }
+.stage .stage-head{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:1rem;
+}
+.stage .stage-title{
+  font-family:var(--serif);
+  font-weight:700; font-size:1.15em;
+  letter-spacing:.02em;
+}
+.stage .stage-sub{
+  font-family:var(--display);
+  font-size:11px; letter-spacing:.18em;
+  color:var(--muted); text-transform:uppercase;
+}
+.stage .stage-tag{
+  font-family:var(--display);
+  font-size:11px; letter-spacing:.14em;
+  color:var(--accent);
+}
+.stage .stage-question{
+  margin-top:.5em; color:var(--muted);
+  font-size:.97em;
+}
+.stage .stage-body{
+  max-height:0; overflow:hidden;
+  transition:max-height .5s cubic-bezier(.22,1,.36,1), margin-top .3s ease;
+}
+.stage[aria-expanded="true"] .stage-body{
+  max-height:1200px;
+  margin-top:1rem;
+}
+.stage .stage-body-inner{
+  border-top:1px dashed var(--line);
+  padding-top:1rem;
+}
+.stage .stage-body-inner ul{ margin-bottom:1em; }
+.stage .stage-trap{
+  font-size:.97em; color:var(--text); padding-top:.4rem;
+}
+
+/* ====== Entrepreneurs grid ====== */
+.founders{
+  display:grid; grid-template-columns:1fr 1fr; gap:1rem;
+  margin:2.4rem 0 1rem;
+}
+@media (max-width:600px){ .founders{ grid-template-columns:1fr; } }
+.founder{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:1.4rem 1.5rem;
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  transition:border-color .3s ease, transform .3s ease;
+}
+.founder:hover{ border-color:var(--accent); transform:translateY(-2px); }
+.founder .f-head{ display:flex; justify-content:space-between; align-items:baseline; gap:.6rem; }
+.founder .f-name{
+  font-family:var(--serif); font-weight:700; font-size:1.2em; letter-spacing:.02em;
+}
+.founder .f-stage{
+  font-family:var(--display); font-size:10.5px;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--accent);
+}
+.founder .f-quote{
+  margin-top:.6em; color:var(--muted);
+  font-size:.95em; line-height:1.6;
+}
+.founder .f-bar{
+  margin-top:1.1rem; height:6px; border-radius:4px;
+  background:var(--card-2);
+  position:relative; overflow:hidden;
+}
+.founder .f-bar > i{
+  position:absolute; top:-3px; height:12px; width:12px; border-radius:50%;
+  background:var(--accent); transform:translateX(-50%);
+  box-shadow:0 0 0 3px var(--card);
+}
+.founder .f-bar > u{
+  position:absolute; top:0; bottom:0; left:0;
+  background:linear-gradient(to right,
+    color-mix(in srgb,var(--accent) 15%,transparent),
+    color-mix(in srgb,var(--accent) 50%,transparent));
+  border-radius:4px;
+}
+.founder .f-axis{
+  display:flex; justify-content:space-between;
+  font-family:var(--display); font-size:10px;
+  letter-spacing:.14em; color:var(--muted);
+  margin-top:.5rem; text-transform:uppercase;
+}
+.founder .f-body{
+  max-height:0; overflow:hidden;
+  transition:max-height .5s cubic-bezier(.22,1,.36,1), margin-top .3s ease;
+}
+.founder[aria-expanded="true"] .f-body{
+  max-height:1400px;
+  margin-top:1rem;
+}
+.founder .f-body-inner{
+  border-top:1px dashed var(--line);
+  padding-top:1rem;
+  font-size:.97em;
+}
+.founder .f-body-inner p{ margin-bottom:1em; }
+
+/* ====== Compare table ====== */
+.compare{
+  margin:2.4rem 0 1rem;
+  display:grid; gap:.8rem;
+  border:1px solid var(--line);
+  border-radius:14px; padding:1.4rem 1.5rem;
+  background:var(--card-2);
+}
+.compare .row{ display:flex; flex-direction:column; gap:.2rem; }
+.compare .row .label{
+  font-family:var(--display); font-size:11px;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--muted);
+}
+.compare .row .value{
+  font-family:var(--serif); font-weight:600;
+  font-size:1.05em;
+}
+.compare .note{
+  border-top:1px dashed var(--line);
+  padding-top:.9rem; margin-top:.4rem;
+  font-size:.97em; color:var(--text);
+}
+
+/* ====== Side nav (desktop) ====== */
+.sidenav{
+  position:fixed; right:36px; top:50%; transform:translateY(-50%);
+  display:flex; flex-direction:column; gap:.8rem;
+  z-index:80;
+}
+.sidenav a{
+  display:flex; align-items:center; gap:.7rem;
+  font-family:var(--display); font-size:11px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted);
+  opacity:.65; transition:opacity .25s ease,color .25s ease;
+}
+.sidenav a:hover{ opacity:1; color:var(--text); }
+.sidenav a .dot{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--muted);
+  transition:transform .25s ease,background-color .25s ease,box-shadow .25s ease;
+}
+.sidenav a .label{
+  opacity:0; transform:translateX(-4px);
+  transition:opacity .25s ease,transform .25s ease;
+}
+.sidenav a:hover .label{ opacity:1; transform:translateX(0); }
+.sidenav a.is-current{ opacity:1; color:var(--text); }
+.sidenav a.is-current .dot{
+  background:var(--accent);
+  transform:scale(1.6);
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 15%,transparent);
+}
+.sidenav a.is-current .label{ opacity:1; transform:translateX(0); }
+@media (max-width:1080px){ .sidenav{ display:none; } }
+
+/* ====== Mobile floating nav ====== */
+.mobnav{
+  position:fixed; right:20px; bottom:24px;
+  z-index:90; display:none;
+}
+@media (max-width:1080px){ .mobnav{ display:block; } }
+.mobnav .toggle{
+  width:48px; height:48px; border-radius:50%;
+  background:var(--card); border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  display:inline-flex; align-items:center; justify-content:center;
+}
+.mobnav .toggle svg{ width:18px; height:18px; color:var(--text); }
+.mobnav .menu{
+  position:absolute; right:0; bottom:60px;
+  background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:.7rem .4rem;
+  min-width:200px; box-shadow:var(--shadow);
+  opacity:0; pointer-events:none; transform:translateY(8px);
+  transition:opacity .25s ease,transform .25s ease;
+}
+.mobnav[data-open="true"] .menu{
+  opacity:1; pointer-events:auto; transform:translateY(0);
+}
+.mobnav .menu a{
+  display:block; padding:.6rem 1rem;
+  font-family:var(--display); font-size:12px;
+  letter-spacing:.1em; color:var(--text);
+  border-radius:8px;
+}
+.mobnav .menu a:hover{ background:var(--card-2); }
+.mobnav .menu a.is-current{ color:var(--accent); }
+
+/* ====== Footer ====== */
+footer{
+  margin-top:8rem; padding-top:3rem;
+  border-top:1px solid var(--line);
+  text-align:center;
+}
+footer .line{
+  font-family:var(--serif); font-size:1em;
+  color:var(--muted); font-style:italic;
+  letter-spacing:.04em;
+}
+footer .copy{
+  font-family:var(--display); font-size:11px;
+  letter-spacing:.22em; color:var(--muted);
+  opacity:.55; margin-top:1.6rem;
+}
+
+/* ====== Entry animations ====== */
+.reveal{
+  opacity:0; transform:translateY(18px);
+  transition:opacity .6s cubic-bezier(.22,1,.36,1),
+             transform .6s cubic-bezier(.22,1,.36,1);
+}
+.reveal.in{ opacity:1; transform:translateY(0); }
+.reveal[data-delay="1"]{ transition-delay:.06s; }
+.reveal[data-delay="2"]{ transition-delay:.12s; }
+.reveal[data-delay="3"]{ transition-delay:.18s; }
+.reveal[data-delay="4"]{ transition-delay:.24s; }
+.reveal[data-delay="5"]{ transition-delay:.30s; }
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+}
+
+/* Parallax wrap (very subtle) */
+.parallax{ will-change:transform; }
+
+/* Mixed CJK + Latin: small horizontal breathing room */
+p, li, h2, h3, h4 { word-break:normal; overflow-wrap:break-word; }
+
+/* Anchor copy toast */
+.toast{
+  position:fixed; left:50%; top:24px; transform:translate(-50%,-12px);
+  background:var(--text); color:var(--bg);
+  padding:.55rem 1rem; border-radius:999px;
+  font-family:var(--display); font-size:12px; letter-spacing:.12em;
+  opacity:0; pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+  z-index:200;
+}
+.toast.show{ opacity:.92; transform:translate(-50%,0); }
+</style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress" aria-hidden="true"><span id="bar"></span></div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="brand">ESSAY · 2026</div>
+  <button class="theme-toggle" id="themeToggle" aria-label="切换明暗模式" title="切换明暗模式">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4.2"></circle>
+      <path d="M12 2v2.2M12 19.8V22M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2 12h2.2M19.8 12H22M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"></path>
+    </svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20.5 14.4A8.3 8.3 0 0 1 9.6 3.5a8.4 8.4 0 1 0 10.9 10.9z"></path>
+    </svg>
+  </button>
+</div>
+
+<!-- Side nav (desktop) -->
+<nav class="sidenav" aria-label="章节导航">
+  <a href="#s1" data-target="s1"><span class="dot"></span><span class="label">本质</span></a>
+  <a href="#s2" data-target="s2"><span class="dot"></span><span class="label">特质</span></a>
+  <a href="#s3" data-target="s3"><span class="dot"></span><span class="label">四阶段</span></a>
+  <a href="#s4" data-target="s4"><span class="dot"></span><span class="label">诊断</span></a>
+  <a href="#s5" data-target="s5"><span class="dot"></span><span class="label">路径</span></a>
+  <a href="#s6" data-target="s6"><span class="dot"></span><span class="label">结语</span></a>
+</nav>
+
+<!-- Mobile nav -->
+<div class="mobnav" id="mobnav">
+  <button class="toggle" aria-label="打开章节导航" id="mobToggle">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="4" y1="7" x2="20" y2="7"></line>
+      <line x1="4" y1="12" x2="20" y2="12"></line>
+      <line x1="4" y1="17" x2="20" y2="17"></line>
+    </svg>
+  </button>
+  <div class="menu" role="menu">
+    <a href="#s1" data-target="s1">01 · 本质</a>
+    <a href="#s2" data-target="s2">02 · 六个特质</a>
+    <a href="#s3" data-target="s3">03 · 四阶段</a>
+    <a href="#s4" data-target="s4">04 · 四人诊断</a>
+    <a href="#s5" data-target="s5">05 · 找到那件事</a>
+    <a href="#s6" data-target="s6">06 · 结语</a>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">链接已复制</div>
+
+<!-- Page -->
+<main class="page parallax" id="page">
+
+  <header class="hero">
+    <div class="eyebrow reveal">A LONG-FORM ESSAY</div>
+    <h1 class="reveal" data-delay="1">企业家精神的<br>四个阶段</h1>
+    <p class="subtitle reveal" data-delay="2">从立身到平天下:一个关于成长、思想、与所做之事的框架。</p>
+    <div class="meta reveal" data-delay="3">
+      <span>约 15 分钟阅读</span>
+      <span class="dot"></span>
+      <span>共 6 节</span>
+      <span class="dot"></span>
+      <span>5,800 字</span>
+    </div>
+  </header>
+
+  <!-- Section 1 -->
+  <section id="s1" data-nav="s1">
+    <div class="section-num reveal">01 · The Essence</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#s1" aria-label="复制链接">#</a>
+      企业家的本质
+    </h2>
+
+    <p class="reveal" data-delay="2">如果剥掉所有商业语言的修饰,企业家的本质其实只有一句话:</p>
+
+    <span class="keyline reveal" data-delay="3">在不确定性中,承担风险,通过组织资源去创造原本不存在的价值。</span>
+
+    <p class="reveal">熊彼特对这件事的定义最锋利——企业家是"创造性破坏"的执行者。他不是管理者(优化既有系统),不是投资人(配置资本),不是发明家(创造想法),而是那个<span class="accent">把一个不存在的东西强行拽进现实</span>的人。这个动作本身就反人性,因为它要求在所有信号都说"这不会成"的时候,继续往前走。</p>
+
+    <p class="reveal">德鲁克补了一刀:企业家不是冒险家,而是<span class="accent">把风险系统化、把不确定性转化为机会</span>的人。真正的企业家厌恶赌博,他们想方设法降低每一个不必要的风险,只把筹码押在那个非赌不可的核心判断上。</p>
+
+    <p class="reveal">所以企业家的本质动作是三个:</p>
+
+    <ul class="reveal">
+      <li><strong>看见别人没看见的东西</strong>(认知不对称)</li>
+      <li><strong>相信自己看见的东西</strong>(在没有外部验证时的内部坚定)</li>
+      <li><strong>把它做出来</strong>(从想法到现实的执行链)</li>
+    </ul>
+
+    <p class="reveal">这三件事缺一不可。只有第一件,是评论家;只有前两件,是空想家;三件都有,才是企业家。</p>
+  </section>
+
+  <hr>
+
+  <!-- Section 2 -->
+  <section id="s2" data-nav="s2">
+    <div class="section-num reveal">02 · Six Counterintuitive Traits</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#s2" aria-label="复制链接">#</a>
+      企业家的六个反直觉特质
+    </h2>
+
+    <p class="reveal" data-delay="2">常见的"成功者画像"——勤奋、聪明、抗压——说了等于没说。真正区分企业家的,是几个<span class="accent">反直觉</span>的特质。</p>
+
+    <h3 class="reveal">1. 高容忍度的认知失调</h3>
+    <p class="reveal">企业家长期生活在"我相信 X 会成,但所有证据说 X 不会成"的精神状态里。普通人在这种状态下会崩溃或者放弃信念,企业家可以一边承认现实糟糕,一边继续按自己的判断行动。</p>
+    <p class="reveal">Peter Thiel 说的"逆向思维"——找到一个"大家都不同意但你认为是真的"的命题——本质上就是要求长期忍受这种孤独。</p>
+
+    <h3 class="reveal">2. 把自我和项目分离的能力</h3>
+    <p class="reveal">失败时不会觉得"自己"完了,只会觉得"这个项目"完了。这种心理隔离能力让他们能快速止损、坦然换方向。乔布斯被苹果赶走那段经历,他自己说是"一生中最棒的事",这不是凡尔赛,而是真实的——因为他能把"乔布斯"和"苹果 CEO 乔布斯"分开。</p>
+
+    <h3 class="reveal">3. 对"做出来"的强迫症</h3>
+    <p class="reveal">有想法的人很多,有想法且能写文档的人也不少,但有想法且会<span class="accent">亲手把第一个版本糙糙地做出来</span>的人极少。这是个执行层面的特质,跟智商关系不大,跟一种近乎洁癖的"必须看到它真实存在"的冲动有关。</p>
+
+    <h3 class="reveal">4. 对世界结构性的好奇</h3>
+    <p class="reveal">不是好奇"这个东西怎么用",而是好奇"这个东西为什么是这样而不是那样,如果改变其中一个变量会发生什么"。马斯克对火箭的好奇是从"为什么这么贵"开始的,然后一路追到原材料成本占比 3%,推出"那剩下 97% 去哪了"的问题。这种结构性好奇是创新的源头。</p>
+
+    <h3 class="reveal">5. 不对称的乐观</h3>
+    <p class="reveal">对长期极度乐观,对短期极度悲观/谨慎。普通人正好相反——短期总觉得能搞定,长期总觉得算了。</p>
+
+    <h3 class="reveal">6. 招人和被招的能力</h3>
+    <p class="reveal">能让比自己强的人愿意跟着干。这件事非常难,因为它要求既要让对方看到你能带他去他自己去不了的地方,又要让对方愿意暂时压制自己的 judgment 服从你的判断。</p>
+  </section>
+
+  <hr>
+
+  <!-- Section 3 -->
+  <section id="s3" data-nav="s3">
+    <div class="section-num reveal">03 · Four Stages of Mind</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#s3" aria-label="复制链接">#</a>
+      思想的四个阶段——立身、齐家、治国、平天下
+    </h2>
+
+    <p class="reveal" data-delay="2">这个框架暗合了一个人<span class="accent">心智半径</span>的扩张过程。</p>
+
+    <div class="stages reveal" data-delay="3" id="stages">
+      <!-- Stage 1 -->
+      <article class="stage" aria-expanded="true" data-stage="1">
+        <span class="marker" aria-hidden="true"></span>
+        <div class="stage-head">
+          <div>
+            <div class="stage-sub">Stage 01</div>
+            <div class="stage-title">立身 · 思考"我是谁,我能做什么"</div>
+          </div>
+          <div class="stage-tag">SELF</div>
+        </div>
+        <div class="stage-question">核心问题是<strong>自我认知和能力建立</strong>。</div>
+        <div class="stage-body">
+          <div class="stage-body-inner">
+            <ul>
+              <li>天赋在哪里?兴趣在哪里?这两者的交集是什么?</li>
+              <li>愿意为什么东西忍受痛苦?(这个问题比"喜欢什么"更准确)</li>
+              <li>认知盲区是什么?需要补哪些基础能力?</li>
+              <li>用什么标准评价自己?是外部成功还是内部一致?</li>
+            </ul>
+            <p class="stage-trap">这个阶段最大的陷阱是<span class="accent">用外部认可代替自我建立</span>。很多人一辈子停在这里,因为他们从未真正问过自己"如果没人看,我还会做这件事吗"。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Stage 2 -->
+      <article class="stage" aria-expanded="false" data-stage="2">
+        <span class="marker" aria-hidden="true"></span>
+        <div class="stage-head">
+          <div>
+            <div class="stage-sub">Stage 02</div>
+            <div class="stage-title">齐家 · 思考"如何与他人协作"</div>
+          </div>
+          <div class="stage-tag">RELATION</div>
+        </div>
+        <div class="stage-question">核心问题是<strong>关系、责任、组织</strong>。</div>
+        <div class="stage-body">
+          <div class="stage-body-inner">
+            <ul>
+              <li>如何处理亲密关系中的差异和冲突?</li>
+              <li>如何对所爱的人负责而不失去自己?</li>
+              <li>如何组建一个小规模的、高信任度的团队?</li>
+              <li>如何在亲近的人面前保持长期一致性?</li>
+            </ul>
+            <p class="stage-trap">这个阶段是从<span class="accent">"原子化的自我"转向"关系中的自我"</span>。很多技术天才和孤独的创造者卡在这一关——能搞定代码搞不定家庭,能写出杰作搞不定合伙人。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Stage 3 -->
+      <article class="stage" aria-expanded="false" data-stage="3">
+        <span class="marker" aria-hidden="true"></span>
+        <div class="stage-head">
+          <div>
+            <div class="stage-sub">Stage 03</div>
+            <div class="stage-title">治国 · 思考"如何影响一个系统"</div>
+          </div>
+          <div class="stage-tag">SYSTEM</div>
+        </div>
+        <div class="stage-question">核心问题是<strong>系统、机制、规模化</strong>。</div>
+        <div class="stage-body">
+          <div class="stage-body-inner">
+            <ul>
+              <li>如何让一个组织在没有个人亲自介入的情况下也能良好运转?</li>
+              <li>如何设计激励机制让聪明人愿意来、愿意留、愿意全力以赴?</li>
+              <li>如何在保持文化的前提下扩大规模?</li>
+              <li>如何处理权力——既要使用它,又要不被它腐蚀?</li>
+            </ul>
+            <p class="stage-trap">这个阶段需要的能力跟前两个阶段完全不同。很多优秀的"立身者"做不好"治国",因为<span class="accent">系统不会按个人意愿运转,它有自己的逻辑</span>。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Stage 4 -->
+      <article class="stage" aria-expanded="false" data-stage="4">
+        <span class="marker" aria-hidden="true"></span>
+        <div class="stage-head">
+          <div>
+            <div class="stage-sub">Stage 04</div>
+            <div class="stage-title">平天下 · 思考"如何重塑一个更大的范式"</div>
+          </div>
+          <div class="stage-tag">CIVILIZATION</div>
+        </div>
+        <div class="stage-question">核心问题是<strong>文明、长期、根本性变量</strong>。</div>
+        <div class="stage-body">
+          <div class="stage-body-inner">
+            <ul>
+              <li>人类社会的哪个底层结构需要被改变?</li>
+              <li>能为 100 年后的人留下什么?</li>
+              <li>这份工作如何与人类整体的命运相关?</li>
+              <li>愿意为什么样的事业承担"被时代误解"的代价?</li>
+            </ul>
+            <p class="stage-trap">这个阶段已经不是商业问题了,是<span class="accent">哲学和历史问题</span>。大多数所谓的"企业家"在第三阶段就到顶了,真正进入第四阶段的人极少,而且他们往往不再被商业语言所定义。</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- Section 4 -->
+  <section id="s4" data-nav="s4">
+    <div class="section-num reveal">04 · Four Diagnoses</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#s4" aria-label="复制链接">#</a>
+      四位企业家的层次诊断
+    </h2>
+
+    <p class="reveal" data-delay="2">在四阶段框架里,把四个标志性的当代企业家各自钉一颗钉子。点击卡片可展开全文分析。</p>
+
+    <div class="founders reveal" data-delay="3" id="founders">
+
+      <!-- Jack Ma -->
+      <article class="founder" aria-expanded="false">
+        <div class="f-head">
+          <div class="f-name">马云</div>
+          <div class="f-stage">治国 · 触碰平天下</div>
+        </div>
+        <div class="f-quote">江湖式的、感性的、布道式的治国者——在商业肌理上做了重塑,但在更高一层没处理好。</div>
+        <div class="f-bar" aria-hidden="true">
+          <u style="width:70%"></u><i style="left:70%"></i>
+        </div>
+        <div class="f-axis"><span>立身</span><span>齐家</span><span>治国</span><span>平天下</span></div>
+        <div class="f-body">
+          <div class="f-body-inner">
+            <h4>核心层次:治国(顶峰时期触摸过平天下边缘)</h4>
+            <p>他对"商业基础设施"(支付、物流、信用)的系统设计是治国级别的,阿里在中国电商基础设施上的建构确实改变了一个国家的商业肌理。</p>
+            <p>但他后来的命运恰恰说明,<span class="accent">平天下</span>这一层不只是商业能不能做大,还涉及一个人与所在的文明结构之间的关系——这个问题他没有处理好。马云的思想底色是中国传统江湖式的、感性的、布道式的,这让他在治国层极有魅力,但在更高层面缺少冷峻的结构性思考。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Lei Jun -->
+      <article class="founder" aria-expanded="false">
+        <div class="f-head">
+          <div class="f-name">雷军</div>
+          <div class="f-stage">治国 · 精度极高</div>
+        </div>
+        <div class="f-quote">工程师式企业家,产品主义 + 性价比 + 长期主义,目标清晰、动作扎实、节奏稳定。</div>
+        <div class="f-bar" aria-hidden="true">
+          <u style="width:65%"></u><i style="left:65%"></i>
+        </div>
+        <div class="f-axis"><span>立身</span><span>齐家</span><span>治国</span><span>平天下</span></div>
+        <div class="f-body">
+          <div class="f-body-inner">
+            <h4>核心层次:治国(精度极高)</h4>
+            <p>雷军是这四个人里最"工程师式"的企业家。他的思想是产品主义 + 性价比主义 + 长期主义的组合,目标清晰、动作扎实、节奏稳定。小米从手机做到造车,展示了一个<span class="accent">"中国式高效组织"</span>能够达到的工程边界。</p>
+            <p>但雷军的思想体系内部,看不到非常强烈的<strong>平天下</strong>冲动——他想做"伟大的公司",但"伟大"在他这里更多是规模和品质意义上的,而不是范式重构意义上的。这不是贬义,这是清晰的自我定位。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Jensen Huang -->
+      <article class="founder" aria-expanded="false">
+        <div class="f-head">
+          <div class="f-name">黄仁勋</div>
+          <div class="f-stage">治国极致 · 正跨入平天下</div>
+        </div>
+        <div class="f-quote">在一件事上坚持 30 年,赶上了百年级别的范式转移。组织设计与节奏都是教科书级。</div>
+        <div class="f-bar" aria-hidden="true">
+          <u style="width:85%"></u><i style="left:85%"></i>
+        </div>
+        <div class="f-axis"><span>立身</span><span>齐家</span><span>治国</span><span>平天下</span></div>
+        <div class="f-body">
+          <div class="f-body-inner">
+            <h4>核心层次:治国的极致,正在跨入平天下</h4>
+            <p>老黄的厉害在于,他在一件事上(并行计算)坚持了 30 年,从游戏显卡一路做到 AI 算力的底层基础设施。这种<span class="accent">单点深度</span>配合<span class="accent">长期主义</span>,让他赶上了一个百年级别的范式转移(AI 时代)。</p>
+            <p>他对组织设计(扁平、60 个直接下属)、对技术节奏(每两年一代架构)、对生态(CUDA 开发者社区)的设计都是教科书级别的治国。他正在跨入平天下,是因为 AI 算力这件事的影响半径已经超过了商业。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Elon Musk -->
+      <article class="founder" aria-expanded="false">
+        <div class="f-head">
+          <div class="f-name">马斯克</div>
+          <div class="f-stage">平天下 · 带人格阴影</div>
+        </div>
+        <div class="f-quote">唯一从一开始就以"平天下"为出发点选行业的人,但他的野心带有强烈的人格投射。</div>
+        <div class="f-bar" aria-hidden="true">
+          <u style="width:97%"></u><i style="left:97%"></i>
+        </div>
+        <div class="f-axis"><span>立身</span><span>齐家</span><span>治国</span><span>平天下</span></div>
+        <div class="f-body">
+          <div class="f-body-inner">
+            <h4>核心层次:明确进入平天下,但带有强烈的争议性</h4>
+            <p>马斯克是这四个人里唯一一个<span class="accent">从一开始就以"平天下"为出发点选择行业</span>的人。他选行业的逻辑不是"哪里赚钱",而是"哪个变量对人类文明的长期命运最关键"——能源(特斯拉)、跨星球生存(SpaceX)、脑机接口(Neuralink)、AI(xAI)。这是非常古典的、近乎堂吉诃德式的企业家姿态。</p>
+            <p>但马斯克的问题在于,<span class="accent">他的"平天下"是有人格阴影的</span>。他把自己的个人意志投射成"人类意志",这让他在某些时刻显得伟大,在另一些时刻显得失控。他在治国层的能力反而是不稳定的——他可以建立一个伟大的公司,也可以在 72 小时内毁掉 Twitter 的一半。</p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <h3 class="reveal">综合对比</h3>
+    <div class="compare reveal">
+      <div class="row">
+        <div class="label">思想层次的纯度</div>
+        <div class="value">马斯克 &nbsp;&gt;&nbsp; 黄仁勋 &nbsp;&gt;&nbsp; 马云 &nbsp;&gt;&nbsp; 雷军</div>
+      </div>
+      <div class="row">
+        <div class="label">思想与能力的匹配度</div>
+        <div class="value">黄仁勋 &nbsp;&gt;&nbsp; 雷军 &nbsp;&gt;&nbsp; 马云 &nbsp;&gt;&nbsp; 马斯克</div>
+      </div>
+      <div class="note">层次高不等于做得好。<span class="accent">平天下</span>的人如果配不上他的野心,会比一个稳定的<span class="accent">治国</span>者造成更多破坏。</div>
+    </div>
+  </section>
+
+  <hr>
+
+  <!-- Section 5 -->
+  <section id="s5" data-nav="s5">
+    <div class="section-num reveal">05 · The Path</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#s5" aria-label="复制链接">#</a>
+      如何找到那件值得做一生的事
+    </h2>
+
+    <p class="reveal" data-delay="2">要走到"亲手创造出一个能影响无数人生活的产品/公司"这个目标,无法跳过前面的阶段。以下是几条具体路径。</p>
+
+    <h3 class="reveal">1. 不要从"我要做大事"出发,要从"我无法不做"出发</h3>
+    <p class="reveal">那些做出过真正大东西的人,往往不是因为他们一开始就要做大,而是因为他们陷入了一个<span class="accent">自己无法停止思考的问题</span>里。马斯克无法停止思考"为什么人类只有一个星球",黄仁勋无法停止思考"并行计算能做到什么程度",张一鸣无法停止思考"信息分发的效率"。</p>
+    <span class="keyline reveal">要找的不是"我擅长什么",而是"有什么问题,值得比身边 99% 的人想得更深、更久、更不愿放下"。</span>
+    <p class="reveal">这个问题就是主问题。它通常不会以宏大的姿态出现,而是以一种"反复回到它"的形式出现。</p>
+
+    <h3 class="reveal">2. "擅长"是一个过程,不是一个状态</h3>
+    <p class="reveal">23 岁找到自己擅长什么,是个伪命题。Bezos 30 岁才离开金融做亚马逊,黄仁勋 30 岁才做 NVIDIA,马云 35 岁做阿里。<span class="accent">擅长</span>是在反复做一件事的过程中<span class="accent">长出来</span>的,不是一开始就有的。</p>
+
+    <h3 class="reveal">3. 把"平天下"的目标拆成"立身—齐家—治国"的具体动作</h3>
+    <p class="reveal">不要急着想"治国"和"平天下"。前面的台阶没踩实,后面的不可能稳。</p>
+    <p class="reveal"><strong>立身阶段的真问题:</strong>核心能力栈是什么?哪些是真本事,哪些是错觉?写一篇文章、做一段产品、分析一个行业的水平,在同龄人里能排到前 1% 吗?如果不能,"擅长"还没有成型。</p>
+    <p class="reveal"><strong>齐家阶段的真问题:</strong>能不能找到 1–2 个长期可信的合作伙伴?能不能在小范围内被人深度信任?能不能管理 5 个人的团队让他们自愿跟着干?</p>
+
+    <h3 class="reveal">4. 选行业的两条标准</h3>
+    <p class="reveal">第一,<span class="accent">这个行业的底层变量是不是正在发生百年级别的变化</span>?今天的 AI、能源、生物科技、太空、机器人,都是这种行业。一个百年级变量发生时,普通能力也能做出伟大公司;一个稳定行业里,顶级能力也只能做出优秀公司。</p>
+    <p class="reveal">第二,<span class="accent">这个行业的成功是否需要独特的能力组合</span>?如果一件事谁来做都能做好,那它跟你没关系。要找的是"如果不是我,这件事会推迟 3–5 年"的那种事。</p>
+    <p class="reveal">把这两条交叉,能筛掉 80% 的选项。</p>
+
+    <h3 class="reveal">5. 持续输出 + 真实交付:两年练成的双轨</h3>
+    <p class="reveal">不需要急着选定"那件大事"。但需要做两件事来确保当那件大事出现时能抓住它:</p>
+    <ul class="reveal">
+      <li><strong>持续输出</strong>(立身):每天/每周公开思考,无论是文章、newsletter、还是其他形式。它的价值不在于变现,而在于:① 强迫把思考结构化;② 让世界知道你在想什么,有共鸣的人会找到你;③ 在 3–5 年的时间维度上,公开思考的复利是巨大的。</li>
+      <li><strong>真实交付</strong>(立身向齐家过渡):每 3–6 个月做出一个完整的小作品——一个产品、一个工具、一个有用户的项目。重点不是它赚多少钱,而是<span class="accent">完成了"从想法到真实存在"的完整闭环</span>。这是企业家最稀有的肌肉,它只能通过反复练习获得。</li>
+    </ul>
+    <p class="reveal">这两件事做满两年,不需要"找到"那件大事——<span class="accent">它会自己来找</span>。因为那时候,既有清晰的思想锚点,又有交付能力,这两者的组合本身就是一个磁场。</p>
+  </section>
+
+  <hr>
+
+  <!-- Section 6 -->
+  <section id="s6" data-nav="s6">
+    <div class="section-num reveal">06 · Coda</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#s6" aria-label="复制链接">#</a>
+      结语
+    </h2>
+
+    <p class="reveal" data-delay="2">这个问题表面上是关于企业家的,实际上是关于<span class="accent">想成为什么样的人</span>的。这两个问题不能分开问。</p>
+
+    <p class="reveal">真正改变世界的公司,从来都是创始人自己人格的延伸——是什么样的人,决定了能造出什么样的东西。</p>
+
+    <p class="reveal">所以,在寻找"那件事"之前,先想清楚一个更基础的问题:</p>
+
+    <span class="keyline reveal" style="font-size:1.35em">想成为什么样的人?</span>
+  </section>
+
+  <footer>
+    <div class="line">思考是免费的,行动是稀有的。</div>
+    <div class="copy">© 2026</div>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  // ===== Theme toggle =====
+  var root = document.documentElement;
+  var stored = null;
+  try{ stored = localStorage.getItem('theme'); }catch(e){}
+  if(stored === 'dark' || stored === 'light'){
+    root.setAttribute('data-theme', stored);
+  }
+  var toggle = document.getElementById('themeToggle');
+  toggle.addEventListener('click', function(){
+    var current = root.getAttribute('data-theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark;
+    if(current === 'dark') isDark = false;
+    else if(current === 'light') isDark = true;
+    else isDark = !prefersDark;
+    var next = isDark ? 'dark' : 'light';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('theme', next); }catch(e){}
+  });
+
+  // ===== Progress bar =====
+  var bar = document.getElementById('bar');
+  function updateProgress(){
+    var h = document.documentElement;
+    var max = (h.scrollHeight - h.clientHeight);
+    var p = max > 0 ? (h.scrollTop / max) : 0;
+    bar.style.width = (Math.max(0, Math.min(1, p)) * 100) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, {passive:true});
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+
+  // ===== Reveal on scroll =====
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // ===== Side nav current section =====
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-nav]'));
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('[data-target]'));
+  var byTarget = {};
+  navLinks.forEach(function(a){
+    var k = a.getAttribute('data-target');
+    byTarget[k] = byTarget[k] || [];
+    byTarget[k].push(a);
+  });
+
+  function setCurrent(id){
+    navLinks.forEach(function(a){ a.classList.remove('is-current'); });
+    var arr = byTarget[id]; if(!arr) return;
+    arr.forEach(function(a){ a.classList.add('is-current'); });
+    if(history.replaceState){
+      var newHash = '#' + id;
+      if(location.hash !== newHash){
+        history.replaceState(null, '', newHash);
+      }
+    }
+  }
+
+  if('IntersectionObserver' in window){
+    var sio = new IntersectionObserver(function(entries){
+      // pick the section closest to top among intersecting
+      var best = null;
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          if(!best || en.boundingClientRect.top < best.boundingClientRect.top){
+            best = en;
+          }
+        }
+      });
+      if(best){ setCurrent(best.target.id); }
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0.01 });
+    sections.forEach(function(s){ sio.observe(s); });
+  }
+
+  // ===== Smooth scroll for nav links =====
+  navLinks.forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('data-target');
+      var t = document.getElementById(id);
+      if(t){
+        e.preventDefault();
+        var top = t.getBoundingClientRect().top + window.pageYOffset - 60;
+        window.scrollTo({top: top, behavior:'smooth'});
+        if(history.pushState) history.pushState(null, '', '#' + id);
+        // close mobile menu
+        var mob = document.getElementById('mobnav');
+        if(mob) mob.setAttribute('data-open','false');
+      }
+    });
+  });
+
+  // ===== Mobile nav toggle =====
+  var mob = document.getElementById('mobnav');
+  var mobToggle = document.getElementById('mobToggle');
+  mobToggle.addEventListener('click', function(){
+    var open = mob.getAttribute('data-open') === 'true';
+    mob.setAttribute('data-open', open ? 'false' : 'true');
+  });
+  document.addEventListener('click', function(e){
+    if(!mob.contains(e.target)){ mob.setAttribute('data-open','false'); }
+  });
+
+  // ===== Stages expand =====
+  var stages = document.querySelectorAll('#stages .stage');
+  stages.forEach(function(s){
+    s.addEventListener('click', function(e){
+      // ignore clicks inside body links
+      var expanded = s.getAttribute('aria-expanded') === 'true';
+      // collapse all
+      stages.forEach(function(o){ o.setAttribute('aria-expanded','false'); });
+      // expand current if it was collapsed
+      if(!expanded) s.setAttribute('aria-expanded','true');
+    });
+  });
+
+  // ===== Founders expand =====
+  var founders = document.querySelectorAll('#founders .founder');
+  founders.forEach(function(f){
+    f.addEventListener('click', function(){
+      var expanded = f.getAttribute('aria-expanded') === 'true';
+      f.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+    });
+  });
+
+  // ===== Anchor copy =====
+  var toast = document.getElementById('toast');
+  var toastTimer = null;
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    if(toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 1500);
+  }
+  document.querySelectorAll('h2 .anchor').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var h2 = a.closest('section');
+      if(!h2) return;
+      var id = h2.id;
+      var url = location.origin + location.pathname + '#' + id;
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(function(){
+          showToast('链接已复制');
+        }).catch(function(){
+          showToast('#' + id);
+        });
+      } else {
+        showToast('#' + id);
+      }
+      if(history.pushState) history.pushState(null, '', '#' + id);
+    });
+  });
+
+  // ===== Subtle parallax on mouse move (desktop only) =====
+  var page = document.getElementById('page');
+  var canParallax = window.matchMedia('(hover:hover) and (pointer:fine) and (min-width:900px)').matches
+    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(canParallax){
+    var rx = 0, ry = 0, tx = 0, ty = 0, raf = null;
+    function loop(){
+      tx += (rx - tx) * 0.06;
+      ty += (ry - ty) * 0.06;
+      page.style.transform = 'translate3d(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px,0)';
+      if(Math.abs(rx - tx) > .1 || Math.abs(ry - ty) > .1){
+        raf = requestAnimationFrame(loop);
+      } else { raf = null; }
+    }
+    window.addEventListener('mousemove', function(e){
+      var w = window.innerWidth, h = window.innerHeight;
+      rx = ((e.clientX / w) - 0.5) * 6;   // max ±3px
+      ry = ((e.clientY / h) - 0.5) * 4;   // max ±2px
+      if(!raf) raf = requestAnimationFrame(loop);
+    }, {passive:true});
+  }
+
+  // ===== Initial scroll to hash =====
+  if(location.hash){
+    setTimeout(function(){
+      var t = document.querySelector(location.hash);
+      if(t){
+        var top = t.getBoundingClientRect().top + window.pageYOffset - 60;
+        window.scrollTo({top: top, behavior:'smooth'});
+      }
+    }, 200);
+  }
+
+})();
+</script>
+</body>
+</html>
