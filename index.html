@@ -494,6 +494,485 @@ p, li, h2, h3, h4 { word-break:normal; overflow-wrap:break-word; }
   z-index:200;
 }
 .toast.show{ opacity:.92; transform:translate(-50%,0); }
+
+/* ============================================================
+   v2 ADDITIONS — politicians, AI leaders, radar, tests, plot
+   Visual rules continue the v1 system unchanged.
+   ============================================================ */
+
+/* Sidenav group separator (上半部 / 下半部) */
+.sidenav .nav-group{
+  font-family:var(--display); font-size:9.5px; letter-spacing:.2em;
+  color:var(--muted); text-transform:uppercase; opacity:.55;
+  padding:.5rem 0 .4rem 1rem;
+  border-top:1px solid var(--line);
+  margin-top:.4rem;
+}
+.sidenav .nav-group:first-child{ border-top:0; margin-top:0; padding-top:0; }
+.sidenav a.half-coda{ opacity:.5; }
+.sidenav a.half-coda.is-current{ opacity:1; }
+.sidenav a.half-coda .label{ font-style:italic; }
+
+/* Mobile nav separator */
+.mobnav .menu .nav-group{
+  font-family:var(--display); font-size:10px; letter-spacing:.16em;
+  color:var(--muted); text-transform:uppercase; opacity:.55;
+  padding:.7rem 1rem .35rem;
+  border-top:1px solid var(--line);
+  margin-top:.35rem;
+}
+.mobnav .menu .nav-group:first-child{ border-top:0; margin-top:0; padding-top:.4rem; }
+.mobnav .menu a.half-coda{ color:var(--muted); font-style:italic; }
+.mobnav .menu a.half-coda.is-current{ color:var(--accent); }
+
+/* Half-coda section-num */
+.section-num.half-coda-num{
+  color:var(--muted); letter-spacing:.18em;
+}
+
+/* Part divider (transition) */
+.part-divider{
+  text-align:center;
+  margin:8rem auto 6rem;
+}
+@media (max-width:640px){ .part-divider{ margin:6rem auto 4rem; } }
+.part-divider .glyph{
+  font-family:var(--display); font-size:11px;
+  letter-spacing:.32em; text-transform:uppercase;
+  color:var(--muted);
+  display:inline-flex; align-items:center; gap:1.2em;
+}
+.part-divider .glyph::before,
+.part-divider .glyph::after{
+  content:""; display:inline-block;
+  width:54px; height:1px;
+  background:var(--line);
+}
+.part-divider .lead{
+  margin:2.2rem auto 0; max-width:560px;
+  color:var(--muted); font-size:.97em; font-style:italic;
+  line-height:1.85;
+}
+
+/* Politicians grid */
+.pols{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1rem;
+  margin:2.4rem 0 1rem;
+}
+@media (max-width:780px){ .pols{ grid-template-columns:1fr; } }
+.pol{
+  background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:1.3rem 1.35rem;
+  box-shadow:var(--shadow);
+  cursor:pointer; position:relative;
+  transition:border-color .3s ease, transform .3s ease;
+}
+.pol:hover{ border-color:var(--accent); transform:translateY(-2px); }
+.pol .p-name{
+  font-family:var(--serif); font-weight:700;
+  font-size:1.12em; letter-spacing:.02em;
+}
+.pol .p-life{
+  font-family:var(--display); font-size:10.5px;
+  letter-spacing:.12em; color:var(--muted); margin-top:.15em;
+}
+.pol .p-tag{
+  display:inline-block;
+  font-family:var(--display); font-size:10px;
+  letter-spacing:.14em; color:var(--accent);
+  text-transform:uppercase; margin-top:.85em;
+}
+.pol .p-quote{
+  margin-top:.75em; color:var(--muted);
+  font-size:.93em; line-height:1.65;
+}
+.pol .p-dots{
+  display:flex; gap:1rem; margin-top:1.1rem; align-items:center;
+  font-family:var(--display); font-size:10px; letter-spacing:.1em;
+  color:var(--muted); text-transform:uppercase;
+}
+.pol .p-dots .dim{ display:flex; align-items:center; gap:.4rem; }
+.pol .p-dots .dot{
+  width:10px; height:10px; border-radius:50%;
+  background:var(--card-2); border:1px solid var(--line);
+  display:inline-block;
+}
+.pol .p-dots .dot[data-level="high"]{
+  background:var(--accent); border-color:var(--accent);
+}
+.pol .p-dots .dot[data-level="mid"]{
+  background:color-mix(in srgb, var(--accent) 50%, transparent);
+  border-color:var(--accent);
+}
+.pol .p-dots .dot[data-level="low"]{
+  background:transparent; border:1px solid var(--accent); opacity:.55;
+}
+.pol .p-dots .dot[data-level="open"]{
+  background:transparent; border:1.5px dashed var(--accent); opacity:.65;
+}
+.pol .p-body{
+  max-height:0; overflow:hidden;
+  transition:max-height .55s cubic-bezier(.22,1,.36,1), margin-top .3s ease;
+}
+.pol[aria-expanded="true"] .p-body{ max-height:1800px; margin-top:1rem; }
+.pol .p-body-inner{
+  border-top:1px dashed var(--line);
+  padding-top:1rem; font-size:.96em;
+}
+.pol .p-body-inner h4{ margin:0 0 .8rem; }
+.pol .p-body-inner p{ margin-bottom:.85em; }
+
+/* AI leaders grid (reuse pol-like skeleton) */
+.ailead{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:1rem;
+  margin:2.4rem 0 1rem;
+}
+@media (max-width:780px){ .ailead{ grid-template-columns:1fr; } }
+.ai{
+  background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:1.3rem 1.35rem;
+  box-shadow:var(--shadow);
+  cursor:pointer; position:relative;
+  transition:border-color .3s ease, transform .3s ease;
+}
+.ai:hover{ border-color:var(--accent); transform:translateY(-2px); }
+.ai.featured{
+  border-color:color-mix(in srgb, var(--accent) 40%, var(--line));
+  background:linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, var(--card)), var(--card));
+}
+.ai .ai-badge{
+  position:absolute; top:.85rem; right:.85rem;
+  font-family:var(--display); font-size:9px; letter-spacing:.14em;
+  color:var(--accent); text-transform:uppercase;
+  padding:.22rem .55rem; border-radius:999px;
+  border:1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  background:color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.ai .ai-name{
+  font-family:var(--serif); font-weight:700;
+  font-size:1.12em; letter-spacing:.02em;
+  padding-right:5rem;
+}
+.ai .ai-org{
+  font-family:var(--display); font-size:10.5px;
+  letter-spacing:.12em; color:var(--muted); margin-top:.15em;
+}
+.ai .ai-tag{
+  display:inline-block;
+  font-family:var(--display); font-size:10px;
+  letter-spacing:.14em; color:var(--accent);
+  text-transform:uppercase; margin-top:.85em;
+}
+.ai .ai-quote{
+  margin-top:.75em; color:var(--muted);
+  font-size:.93em; line-height:1.65;
+}
+.ai .ai-bars{ display:flex; gap:.4rem; margin-top:1.1rem; }
+.ai .ai-bars .bar{
+  flex:1; height:5px; border-radius:3px;
+  background:var(--card-2); position:relative; overflow:hidden;
+}
+.ai .ai-bars .bar > i{
+  position:absolute; top:0; bottom:0; left:0;
+  background:var(--accent); border-radius:3px;
+}
+.ai .ai-labels{
+  display:flex; gap:.4rem; margin-top:.5rem;
+  font-family:var(--display); font-size:9px; letter-spacing:.08em;
+  color:var(--muted); text-transform:uppercase;
+}
+.ai .ai-labels span{ flex:1; text-align:center; }
+.ai .ai-body{
+  max-height:0; overflow:hidden;
+  transition:max-height .55s cubic-bezier(.22,1,.36,1), margin-top .3s ease;
+}
+.ai[aria-expanded="true"] .ai-body{ max-height:1600px; margin-top:1rem; }
+.ai .ai-body-inner{
+  border-top:1px dashed var(--line);
+  padding-top:1rem; font-size:.96em;
+}
+.ai .ai-body-inner p{ margin-bottom:.85em; }
+
+/* Radar widget */
+.radar{
+  margin:2.4rem 0 1.5rem;
+  border:1px solid var(--line); border-radius:16px;
+  background:var(--card); padding:1.6rem;
+  box-shadow:var(--shadow);
+}
+.radar-presets{
+  display:flex; flex-wrap:wrap; gap:.4rem;
+  margin-bottom:1.4rem;
+}
+.radar-presets button{
+  font-family:var(--display); font-size:11px;
+  letter-spacing:.06em; font-weight:500;
+  padding:.5rem .95rem; border-radius:999px;
+  border:1px solid var(--line); color:var(--text);
+  background:var(--card); cursor:pointer;
+  transition:border-color .25s ease, color .25s ease, background-color .25s ease;
+}
+.radar-presets button:hover{ border-color:var(--accent); color:var(--accent); }
+.radar-presets button.active{
+  background:var(--accent); border-color:var(--accent); color:#fff;
+}
+.radar-grid{
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:2rem; align-items:center;
+}
+@media (max-width:780px){ .radar-grid{ grid-template-columns:1fr; gap:1.4rem; } }
+.radar-svg-wrap{ position:relative; }
+.radar-svg{
+  display:block; width:100%; height:auto; max-width:380px;
+  margin:0 auto;
+}
+.radar-svg .ring{ fill:none; stroke:var(--line); }
+.radar-svg .ring.r1{ opacity:.85; }
+.radar-svg .ring.r2{ opacity:.55; stroke-dasharray:2 3; }
+.radar-svg .ring.r3{ opacity:.4; stroke-dasharray:2 3; }
+.radar-svg .ring.r4{ opacity:.28; stroke-dasharray:2 3; }
+.radar-svg .axis{ stroke:var(--line); opacity:.55; }
+.radar-svg .lbl{
+  font-family:var(--display); font-size:11px;
+  fill:var(--muted); letter-spacing:.05em;
+}
+.radar-svg .poly{
+  fill:color-mix(in srgb, var(--accent) 22%, transparent);
+  stroke:var(--accent); stroke-width:1.6;
+  stroke-linejoin:round;
+}
+.radar-svg .pt{ fill:var(--accent); }
+
+.radar-sliders{ display:flex; flex-direction:column; gap:.85rem; }
+.slider{
+  display:grid; grid-template-columns:110px 1fr 30px;
+  align-items:center; gap:.7rem;
+}
+@media (max-width:640px){ .slider{ grid-template-columns:96px 1fr 28px; } }
+.slider label{
+  font-family:var(--display); font-size:11px;
+  letter-spacing:.08em; color:var(--muted);
+  text-transform:uppercase;
+}
+.slider input[type=range]{
+  -webkit-appearance:none; appearance:none;
+  width:100%; height:4px; border-radius:3px;
+  background:var(--card-2); outline:none; cursor:pointer;
+}
+.slider input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width:14px; height:14px; border-radius:50%;
+  background:var(--accent); border:2px solid var(--card);
+  box-shadow:0 0 0 1px var(--accent);
+  cursor:pointer;
+}
+.slider input[type=range]::-moz-range-thumb{
+  width:14px; height:14px; border-radius:50%;
+  background:var(--accent); border:2px solid var(--card);
+  box-shadow:0 0 0 1px var(--accent); cursor:pointer;
+}
+.slider .val{
+  font-family:var(--display); font-size:13px;
+  font-weight:600; color:var(--text); text-align:right;
+}
+.radar-summary{
+  margin-top:1.4rem; padding-top:1.1rem;
+  border-top:1px dashed var(--line);
+  display:flex; justify-content:space-between;
+  align-items:baseline; flex-wrap:wrap; gap:.6rem;
+}
+.radar-summary .score{
+  font-family:var(--display); font-size:22px;
+  font-weight:700; letter-spacing:.02em; color:var(--accent);
+}
+.radar-summary .level{
+  font-family:var(--serif); font-size:.97em;
+  color:var(--text); margin-top:.2em;
+}
+.radar-thresholds{
+  font-family:var(--display); font-size:10.5px;
+  letter-spacing:.14em; color:var(--muted);
+  text-transform:uppercase;
+}
+
+/* Counter tests */
+.tests{
+  display:flex; flex-direction:column; gap:1rem;
+  margin:2.4rem 0 1rem;
+}
+.test{
+  background:var(--card); border:1px solid var(--line);
+  border-radius:14px; padding:1.2rem 1.3rem;
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  transition:border-color .3s ease;
+}
+.test:hover{ border-color:var(--accent); }
+.test .t-head{
+  display:flex; align-items:baseline;
+  justify-content:space-between; gap:1rem;
+}
+.test .t-q{
+  font-family:var(--serif); font-weight:600;
+  font-size:1.04em; color:var(--accent); line-height:1.5;
+}
+.test .t-toggle{
+  font-family:var(--display); font-size:11px;
+  letter-spacing:.16em; color:var(--muted);
+  text-transform:uppercase; flex-shrink:0;
+}
+.test[aria-expanded="true"] .t-toggle::after{ content:" ▴"; }
+.test[aria-expanded="false"] .t-toggle::after{ content:" ▾"; }
+.test .t-body{
+  max-height:0; overflow:hidden;
+  transition:max-height .55s cubic-bezier(.22,1,.36,1), margin-top .3s ease;
+}
+.test[aria-expanded="true"] .t-body{ max-height:1400px; margin-top:1rem; }
+.test .t-body-inner{
+  border-top:1px dashed var(--line);
+  padding-top:1rem; font-size:.96em;
+}
+.test .t-body-inner p{ margin-bottom:.85em; color:var(--text); }
+.test .verdicts{
+  display:flex; flex-direction:column;
+  gap:.55rem; margin-top:.5rem;
+}
+.verdict{
+  display:flex; align-items:center;
+  justify-content:space-between; gap:.8rem;
+  padding:.55rem .85rem; border-radius:8px;
+  background:var(--card-2);
+  font-size:.94em;
+}
+.verdict .who{ font-weight:600; color:var(--text); }
+.verdict .vd{
+  font-family:var(--display); font-size:10.5px;
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:.22rem .6rem; border-radius:999px;
+  white-space:nowrap; flex-shrink:0;
+}
+.verdict .vd.pass{
+  color:#1f7a3f;
+  background:color-mix(in srgb,#1f7a3f 12%, transparent);
+}
+:root[data-theme="dark"] .verdict .vd.pass{
+  color:#5fcb86;
+  background:color-mix(in srgb,#5fcb86 14%, transparent);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .verdict .vd.pass{
+    color:#5fcb86;
+    background:color-mix(in srgb,#5fcb86 14%, transparent);
+  }
+}
+.verdict .vd.fail{
+  color:#b8341a;
+  background:color-mix(in srgb,#b8341a 12%, transparent);
+}
+:root[data-theme="dark"] .verdict .vd.fail{
+  color:#e08070;
+  background:color-mix(in srgb,#e08070 14%, transparent);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .verdict .vd.fail{
+    color:#e08070;
+    background:color-mix(in srgb,#e08070 14%, transparent);
+  }
+}
+.verdict .vd.partial{
+  color:#a06b14;
+  background:color-mix(in srgb,#a06b14 14%, transparent);
+}
+:root[data-theme="dark"] .verdict .vd.partial{
+  color:#d9a850;
+  background:color-mix(in srgb,#d9a850 14%, transparent);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .verdict .vd.partial{
+    color:#d9a850;
+    background:color-mix(in srgb,#d9a850 14%, transparent);
+  }
+}
+.verdict .vd.unclear{
+  color:var(--muted);
+  background:var(--card);
+  border:1px solid var(--line);
+}
+
+/* Ambition / ability plot */
+.aamap{
+  margin:2.4rem 0 1.5rem;
+  border:1px solid var(--line); border-radius:16px;
+  background:var(--card); padding:1.5rem;
+  box-shadow:var(--shadow);
+}
+.aamap-wrap{ position:relative; }
+.aamap-svg{
+  display:block; width:100%; height:auto;
+  max-width:540px; margin:0 auto;
+}
+.aamap-svg .aamap-diag{
+  stroke:var(--accent); stroke-width:1;
+  stroke-dasharray:3 4; opacity:.55;
+}
+.aamap-svg .aamap-axisline{ stroke:var(--line); }
+.aamap-svg .aamap-tick{
+  font-family:var(--display); font-size:10.5px;
+  letter-spacing:.08em; fill:var(--muted);
+}
+.aamap-svg .aamap-axis{
+  font-family:var(--display); font-size:10px;
+  letter-spacing:.2em; fill:var(--muted);
+  text-transform:uppercase;
+}
+.aamap-svg .aamap-anno{
+  font-family:var(--display); font-size:10px;
+  letter-spacing:.16em; fill:var(--accent);
+  text-transform:uppercase; opacity:.7;
+}
+.aamap-svg .aamap-label{
+  font-family:var(--display); font-size:11px;
+  letter-spacing:.04em; fill:var(--text);
+}
+.aamap-svg .aamap-pt{ fill:var(--accent); }
+.aamap-svg .aamap-pt.highlight{
+  fill:var(--accent); stroke:var(--card); stroke-width:2.5;
+}
+.aamap-svg g[data-name]{ cursor:default; }
+.aamap-svg g[data-name]:hover .aamap-pt{
+  fill:var(--accent);
+  filter:drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 50%, transparent));
+}
+.aamap-tooltip{
+  position:absolute; pointer-events:none;
+  background:var(--text); color:var(--bg);
+  font-family:var(--display); font-size:11px;
+  letter-spacing:.06em;
+  padding:.35rem .65rem; border-radius:6px;
+  opacity:0; transition:opacity .2s ease;
+  transform:translate(-50%, -160%);
+  white-space:nowrap; z-index:2;
+}
+.aamap-tooltip.show{ opacity:.92; }
+.aamap-legend{
+  display:flex; justify-content:center; gap:2rem;
+  margin-top:1rem; font-family:var(--display);
+  font-size:10.5px; letter-spacing:.14em;
+  color:var(--muted); text-transform:uppercase;
+  flex-wrap:wrap;
+}
+.aamap-legend .grp{ display:inline-flex; align-items:center; gap:.5rem; }
+.aamap-legend .swatch{
+  width:10px; height:10px; border-radius:50%; background:var(--accent);
+}
+.aamap-legend .swatch-line{
+  width:22px; height:0;
+  border-top:1px dashed var(--accent); opacity:.6;
+}
+
+/* Final coda */
+.final-coda{ margin-top:6rem; }
+.final-coda .section-num.half-coda-num{ color:var(--accent); }
 </style>
 </head>
 <body>
@@ -517,12 +996,19 @@ p, li, h2, h3, h4 { word-break:normal; overflow-wrap:break-word; }
 
 <!-- Side nav (desktop) -->
 <nav class="sidenav" aria-label="章节导航">
-  <a href="#s1" data-target="s1"><span class="dot"></span><span class="label">本质</span></a>
-  <a href="#s2" data-target="s2"><span class="dot"></span><span class="label">特质</span></a>
-  <a href="#s3" data-target="s3"><span class="dot"></span><span class="label">四阶段</span></a>
-  <a href="#s4" data-target="s4"><span class="dot"></span><span class="label">诊断</span></a>
-  <a href="#s5" data-target="s5"><span class="dot"></span><span class="label">路径</span></a>
-  <a href="#s6" data-target="s6"><span class="dot"></span><span class="label">结语</span></a>
+  <div class="nav-group">上半部 · 企业家</div>
+  <a href="#s1" data-target="s1"><span class="dot"></span><span class="label">01 · 本质</span></a>
+  <a href="#s2" data-target="s2"><span class="dot"></span><span class="label">02 · 特质</span></a>
+  <a href="#s3" data-target="s3"><span class="dot"></span><span class="label">03 · 四阶段</span></a>
+  <a href="#s4" data-target="s4"><span class="dot"></span><span class="label">04 · 四人诊断</span></a>
+  <a href="#s5" data-target="s5"><span class="dot"></span><span class="label">05 · 路径</span></a>
+  <a href="#coda1" data-target="coda1" class="half-coda"><span class="dot"></span><span class="label">上半部结语</span></a>
+  <div class="nav-group">下半部 · 政治家与 AI</div>
+  <a href="#s6" data-target="s6"><span class="dot"></span><span class="label">06 · 政治家</span></a>
+  <a href="#s7" data-target="s7"><span class="dot"></span><span class="label">07 · 六位诊断</span></a>
+  <a href="#s8" data-target="s8"><span class="dot"></span><span class="label">08 · AI 时代</span></a>
+  <a href="#s9" data-target="s9"><span class="dot"></span><span class="label">09 · 决策模型</span></a>
+  <a href="#coda2" data-target="coda2" class="half-coda"><span class="dot"></span><span class="label">最终结语</span></a>
 </nav>
 
 <!-- Mobile nav -->
@@ -535,12 +1021,19 @@ p, li, h2, h3, h4 { word-break:normal; overflow-wrap:break-word; }
     </svg>
   </button>
   <div class="menu" role="menu">
+    <div class="nav-group">上半部 · 企业家篇</div>
     <a href="#s1" data-target="s1">01 · 本质</a>
     <a href="#s2" data-target="s2">02 · 六个特质</a>
     <a href="#s3" data-target="s3">03 · 四阶段</a>
     <a href="#s4" data-target="s4">04 · 四人诊断</a>
     <a href="#s5" data-target="s5">05 · 找到那件事</a>
-    <a href="#s6" data-target="s6">06 · 结语</a>
+    <a href="#coda1" data-target="coda1" class="half-coda">— 上半部结语</a>
+    <div class="nav-group">下半部 · 政治家与 AI</div>
+    <a href="#s6" data-target="s6">06 · 从企业家到政治家</a>
+    <a href="#s7" data-target="s7">07 · 六位政治家诊断</a>
+    <a href="#s8" data-target="s8">08 · AI 时代</a>
+    <a href="#s9" data-target="s9">09 · 决策模型</a>
+    <a href="#coda2" data-target="coda2" class="half-coda">— 最终结语</a>
   </div>
 </div>
 
@@ -555,11 +1048,11 @@ p, li, h2, h3, h4 { word-break:normal; overflow-wrap:break-word; }
     <h1 class="reveal" data-delay="1">企业家精神的<br>四个阶段</h1>
     <p class="subtitle reveal" data-delay="2">从立身到平天下:一个关于成长、思想、与所做之事的框架。</p>
     <div class="meta reveal" data-delay="3">
-      <span>约 15 分钟阅读</span>
+      <span>约 45 分钟阅读 · 分上下两部</span>
       <span class="dot"></span>
-      <span>共 6 节</span>
+      <span>共 9 节</span>
       <span class="dot"></span>
-      <span>5,800 字</span>
+      <span>约 18,000 字</span>
     </div>
   </header>
 
@@ -883,11 +1376,11 @@ p, li, h2, h3, h4 { word-break:normal; overflow-wrap:break-word; }
 
   <hr>
 
-  <!-- Section 6 -->
-  <section id="s6" data-nav="s6">
-    <div class="section-num reveal">06 · Coda</div>
+  <!-- Half Coda (was v1 Section 6) -->
+  <section id="coda1" data-nav="coda1">
+    <div class="section-num reveal half-coda-num">上半部结语 · Coda I</div>
     <h2 class="reveal" data-delay="1">
-      <a class="anchor" href="#s6" aria-label="复制链接">#</a>
+      <a class="anchor" href="#coda1" aria-label="复制链接">#</a>
       结语
     </h2>
 
@@ -898,6 +1391,651 @@ p, li, h2, h3, h4 { word-break:normal; overflow-wrap:break-word; }
     <p class="reveal">所以,在寻找"那件事"之前,先想清楚一个更基础的问题:</p>
 
     <span class="keyline reveal" style="font-size:1.35em">想成为什么样的人?</span>
+  </section>
+
+  <!-- ==================== TRANSITION TO PART II ==================== -->
+  <div class="part-divider reveal" aria-hidden="false">
+    <div class="glyph">PART II · 下半部</div>
+    <p class="lead">这套框架不只属于企业家。把视野从产业放大到权力,从工业时代放大到 AI 时代,会看到同样的四层结构正在另一些维度上展开——只是变量从产品换成了制度,从公司换成了文明本身。下半部,从政治家开始。</p>
+  </div>
+
+  <!-- ==================== SECTION 6 ==================== -->
+  <section id="s6" data-nav="s6">
+    <div class="section-num reveal">06 · From Founders to Statesmen</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#s6" aria-label="复制链接">#</a>
+      从企业家到政治家——"平天下"在不同维度上的展开
+    </h2>
+
+    <p class="reveal" data-delay="2">在企业家那里,"平天下"是范式重构——改变一个行业、一个技术轨道、人类生存的某个根本变量。在政治家那里,"平天下"的含义更重也更复杂,因为政治家直接操作的是<span class="accent">权力、人口、领土、制度</span>这些最硬的变量。</p>
+
+    <p class="reveal">判断一个政治人物是否真正在"平天下"层面,可以用三条标准:</p>
+
+    <ul class="reveal">
+      <li><strong>重构性</strong>:他是在维护一个既有秩序,还是在创造/重塑一个新秩序?</li>
+      <li><strong>半径</strong>:他的影响是局部的、国家的,还是文明的、全球的?</li>
+      <li><strong>持久性</strong>:他离开舞台之后,他建立的东西能否独立运转?还是高度依赖他个人?</li>
+    </ul>
+
+    <p class="reveal">第三条最关键。很多看起来"平天下"的人,本质上只是"治国"层面的极致,因为他们建立的东西离开他就崩了——这意味着他没有真正完成范式的制度化。</p>
+
+    <span class="keyline reveal">层次高不等于评价高。这个框架是描述性的,不是道德判断。</span>
+
+    <p class="reveal">希特勒在第三条标准上彻底失败,但他试图重构的野心毫无疑问在"平天下"层面。一个人在"平天下"层面行动,可能带来巨大善,也可能带来巨大恶——这两者并不矛盾。</p>
+  </section>
+
+  <hr>
+
+  <!-- ==================== SECTION 7 ==================== -->
+  <section id="s7" data-nav="s7">
+    <div class="section-num reveal">07 · Six Statesmen Diagnosed</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#s7" aria-label="复制链接">#</a>
+      六位政治家的层次诊断
+    </h2>
+
+    <p class="reveal" data-delay="2">把六个标志性的现代政治人物钉在三条标准上——按历史顺序排列,最后一位是非中国语境的对照。卡片点击展开完整诊断。</p>
+
+    <div class="pols reveal" data-delay="3" id="pols">
+
+      <!-- 孙中山 -->
+      <article class="pol" aria-expanded="false">
+        <div class="p-name">孙中山</div>
+        <div class="p-life">1866 — 1925</div>
+        <div class="p-tag">思想平天下 · 实操齐家</div>
+        <div class="p-quote">"先知型"政治人物——看见了未来该走的方向,甚至清晰地说出来了,但他没有能力把它实现。</div>
+        <div class="p-dots">
+          <div class="dim"><span class="dot" data-level="high"></span>重构</div>
+          <div class="dim"><span class="dot" data-level="high"></span>半径</div>
+          <div class="dim"><span class="dot" data-level="low"></span>持久</div>
+        </div>
+        <div class="p-body">
+          <div class="p-body-inner">
+            <h4>核心层次:思想上的平天下 + 实操上的"立身-齐家"层(连治国都未完成)</h4>
+            <p>孙中山是一个典型的<span class="accent">"思想层级远高于实操层级"</span>的政治人物。</p>
+            <p>他在思想上达到了平天下层级:他是第一个系统性提出"中国必须从根本上重构政治形态"的人。在他之前,从洋务运动到戊戌变法,中国的改革思路都是"在帝制框架内修补"。孙中山是第一个公开主张<strong>彻底废除帝制、建立共和</strong>的有组织的政治力量代表。</p>
+            <p>他提出了一套相对完整的思想体系——三民主义。他的影响半径是文明级的,被国共两党、海峡两岸同时尊为"国父/革命先行者",并对越南、朝鲜、菲律宾的民族运动都有辐射。</p>
+            <p>但是,他一生发动了 10 次武装起义,大部分失败。1912 年当上中华民国临时大总统只有 42 天就让位给袁世凯。他从未真正控制过一个完整国家。</p>
+            <p>他的历史地位不在于他做成了什么,而在于他<span class="accent">让"中国必须共和、必须现代化、必须革命"这件事变得不可逆转</span>。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 蒋介石 -->
+      <article class="pol" aria-expanded="false">
+        <div class="p-name">蒋介石</div>
+        <div class="p-life">1887 — 1975</div>
+        <div class="p-tag">平天下野心 · 治国能力</div>
+        <div class="p-quote">"被对手定义"的政治人物——如果没有遇到毛泽东,他可能会是合格的、有缺陷的总统级人物。</div>
+        <div class="p-dots">
+          <div class="dim"><span class="dot" data-level="mid"></span>重构</div>
+          <div class="dim"><span class="dot" data-level="mid"></span>半径</div>
+          <div class="dim"><span class="dot" data-level="mid"></span>持久</div>
+        </div>
+        <div class="p-body">
+          <div class="p-body-inner">
+            <h4>核心层次:野心在平天下,能力稳定在治国层的中上水平</h4>
+            <p>蒋介石实际上完成了一些规模不小的事:1928 年北伐成功,名义上完成了中国的统一;1928–1937 年的"黄金十年"建立了现代中国的早期国家机器;领导中国完成了抗日战争(这是被严重低估的成就——中国成为联合国五常之一,从 1840 年以来第一次以平等主权国家身份重返国际秩序);1949 年后在台湾完成了一次成功的现代化转型。</p>
+            <p>但蒋在重构性上有根本性缺陷:他试图在保留传统社会结构的前提下完成现代化,这条路在 20 世纪上半叶的中国走不通。他的内核是<span class="accent">儒家+军人+实用主义</span>的混合体。这个方案的问题是:它没有触及中国最深的结构问题——土地、农民、社会动员。毛泽东恰恰抓住了这一点。</p>
+            <p>蒋如果没有遇到毛泽东这样的对手,可能会被历史评价为完成了中国现代化奠基的、合格的领导人,接近土耳其的凯末尔或者韩国的朴正熙。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 毛泽东 -->
+      <article class="pol" aria-expanded="false">
+        <div class="p-name">毛泽东</div>
+        <div class="p-life">1893 — 1976</div>
+        <div class="p-tag">平天下 · 极致与阴影</div>
+        <div class="p-quote">20 世纪罕见的"平天下"级——同时完成了三件结构性的事,但持久性有重大缺陷。</div>
+        <div class="p-dots">
+          <div class="dim"><span class="dot" data-level="high"></span>重构</div>
+          <div class="dim"><span class="dot" data-level="high"></span>半径</div>
+          <div class="dim"><span class="dot" data-level="low"></span>持久</div>
+        </div>
+        <div class="p-body">
+          <div class="p-body-inner">
+            <h4>核心层次:平天下(具有破坏性的那一面也极致)</h4>
+            <p>毛泽东同时完成了三件结构性的事:</p>
+            <p><strong>第一,他重塑了一个文明的政治形态</strong>。1949 年以前的中国是一个延续两千年的帝国传统 + 半殖民地半封建结构的混合体。毛泽东用 28 年时间(1921–1949)把这个结构彻底打碎,并建立了一个高度集中的、以党为核心的现代国家机器。这件事的规模在人类历史上能对标的不多——比较接近的是凯末尔重塑土耳其、列宁重塑俄国。</p>
+            <p><strong>第二,他改变了中国与世界的关系</strong>。在他之前,中国是一个被列强切分的"待处理对象";在他之后,中国成为一个独立的、有核武器的、能在全球地缘政治牌桌上拥有否决权的主权国家。</p>
+            <p><strong>第三,他的思想体系真正传播到了国家之外</strong>。毛主义在 20 世纪 60–70 年代影响了从拉美到非洲到东南亚的大量革命运动。这是一种文明级别的思想输出,在中国历史上,上一次有这种规模的对外思想辐射,要追溯到唐代。</p>
+            <p>但是,毛泽东在持久性这条标准上有重大缺陷。文化大革命某种程度上是他个人意志压倒制度的产物,他建立的东西高度依赖他本人,以至于他离世后的 1976–1978 年,整个体系处于即将崩溃的边缘。这是经典的<span class="accent">"平天下野心 + 治国层缺陷"</span>组合。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 邓小平 -->
+      <article class="pol" aria-expanded="false">
+        <div class="p-name">邓小平</div>
+        <div class="p-life">1904 — 1997</div>
+        <div class="p-tag">平天下 · 制度化</div>
+        <div class="p-quote">被严重低估的"平天下"级——他亲手设计了自己的退出机制,让一切在他离开后还能持续运转 30 年。</div>
+        <div class="p-dots">
+          <div class="dim"><span class="dot" data-level="high"></span>重构</div>
+          <div class="dim"><span class="dot" data-level="mid"></span>半径</div>
+          <div class="dim"><span class="dot" data-level="high"></span>持久</div>
+        </div>
+        <div class="p-body">
+          <div class="p-body-inner">
+            <h4>核心层次:平天下(实操维度的极致,制度化做到了少有的程度)</h4>
+            <p><strong>他在一个"既有秩序"内部完成了根本性转向,而没有打碎这个秩序</strong>。这件事极难。革命者打碎旧秩序建立新秩序是一种本事,但在不打碎既有政治结构的前提下,把一个国家从计划经济转向市场经济、从封闭转向开放——这是另一种更高阶的本事。苏联在戈尔巴乔夫手里尝试做类似转向,直接散了。邓做成了。</p>
+            <p><strong>他释放了人类历史上规模最大的生产力增长</strong>。从 1978 到 1997 年,中国 GDP 增长了约 6 倍,数亿人脱离极端贫困。这个体量级的经济转型在人类史上没有先例。</p>
+            <p><strong>他做了"平天下"级人物最难做的一件事:主动交班</strong>。邓晚年最关键的动作不是任何具体政策,而是<span class="accent">他亲手设计了自己的退出机制</span>,并隔代指定接班人。这是持久性标准上的满分。毛泽东没做到,几乎所有"平天下"级人物都没做到(华盛顿是另一个做到的,所以他历史地位独特)。</p>
+            <p>邓的局限在于:他的思想缺乏理论高度和对外辐射力。他没有给世界提供一套"邓主义",他只是给中国提供了一条具体路径。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 习近平 -->
+      <article class="pol" aria-expanded="false">
+        <div class="p-name">习近平</div>
+        <div class="p-life">1953 — · 在任</div>
+        <div class="p-tag">平天下野心 · 进行中</div>
+        <div class="p-quote">一个仍在进行中的判断——历史的判断需要时间发酵。持久性是最大未知数。</div>
+        <div class="p-dots">
+          <div class="dim"><span class="dot" data-level="high"></span>重构</div>
+          <div class="dim"><span class="dot" data-level="high"></span>半径</div>
+          <div class="dim"><span class="dot" data-level="open"></span>持久</div>
+        </div>
+        <div class="p-body">
+          <div class="p-body-inner">
+            <h4>核心层次:平天下野心明确,实际完成度待历史验证</h4>
+            <p>谈在世且仍在执政的政治家,有方法论上的困难——历史的判断需要时间发酵。但可以谈结构。</p>
+            <p><strong>他在尝试重构中国与世界秩序的关系</strong>:从"韬光养晦"转向"大国崛起",构建替代性框架(一带一路、人民币国际化、上合扩容、金砖扩员)。这是在挑战二战后形成的全球秩序,野心半径是文明级的。</p>
+            <p><strong>他在尝试重新定义中国国内的政治模式</strong>:从"党政分开/集体领导/技术官僚治理"转向"党的全面领导/核心权威/意识形态再凝聚"。</p>
+            <p>但在三条标准上,他面临真实挑战:重构性方向清晰但是否真正成型仍有不确定性;半径上野心是全球的但实际辐射力受到多重制约;<span class="accent">持久性是最大未知数</span>——他打破了邓建立的"领导人退休"先例,这意味着体系目前与他个人高度绑定。</p>
+            <p>他能否真正完成这次范式重构,需要看未来 10–15 年的发展,尤其是看他离开舞台时是否能交出一个能独立运转的新体系。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 特朗普 -->
+      <article class="pol" aria-expanded="false">
+        <div class="p-name">特朗普</div>
+        <div class="p-life">1946 — · 在任</div>
+        <div class="p-tag">平天下影响 · 错配能力</div>
+        <div class="p-quote">历史的偶然加速器,而非主动的范式设计者——他在拆,但他没有清晰的建造。</div>
+        <div class="p-dots">
+          <div class="dim"><span class="dot" data-level="mid"></span>重构</div>
+          <div class="dim"><span class="dot" data-level="high"></span>半径</div>
+          <div class="dim"><span class="dot" data-level="low"></span>持久</div>
+        </div>
+        <div class="p-body">
+          <div class="p-body-inner">
+            <h4>核心层次:平天下层面的实际影响 + 远低于平天下的思想/制度建设能力</h4>
+            <p>从传统的政治家标准看,特朗普不在"平天下"层级。他没有提出系统性的思想体系,没有建立可持续的制度。</p>
+            <p>但如果换一个角度看,他可能在不自觉地推动一次"平天下"级别的范式破坏:</p>
+            <p>他正在加速终结二战后由美国自身建立的全球秩序。他正在重塑美国国内的政治范式(MAGA 是一种新的政治形态——后真相、社交媒体驱动、强人型、对建制深度不信任)。他正在打破美国总统权力的传统约束。</p>
+            <p>但他的"平天下"是<span class="accent">破坏性的而非建设性的</span>。他在拆,但他没有清晰的建造。他的行动逻辑是反应性的、情绪化的。这种错配本身是这个时代的特征。</p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <h3 class="reveal">一个时代性的观察</h3>
+    <p class="reveal">我们正在经历一个<span class="accent">"平天下"级行动者集中涌现的时代</span>。二战后建立的全球秩序正在结构性解体。新的秩序还没有成型。这种<strong>秩序真空期</strong>会激发并要求平天下级别的行动——因为旧规则失效,新规则需要被书写。</p>
+    <p class="reveal">历史上类似的时期(1500 年代地理大发现、1789 年法国大革命、1914–1945 世界大战、1945–1991 冷战)都密集出现过平天下级人物。这些时期既产生了改变文明的伟大人物,也产生了带来巨大灾难的破坏性人物。</p>
+    <span class="keyline reveal">未来 15–20 年,会有更多"平天下"级的人物登场,无论是政治家、企业家、还是科技领袖。</span>
+  </section>
+
+  <hr>
+
+  <!-- ==================== SECTION 8 ==================== -->
+  <section id="s8" data-nav="s8">
+    <div class="section-num reveal">08 · The AI Era</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#s8" aria-label="复制链接">#</a>
+      AI 时代的新范式重构者
+    </h2>
+
+    <h3 class="reveal">新平天下级的五个根本特征</h3>
+    <p class="reveal">AI 时代的平天下级和过去工业时代的平天下级,会有根本性的不同。</p>
+
+    <h4 class="reveal">1. 同时操作多个"基础变量",而不是单一行业</h4>
+    <p class="reveal">算力、模型、能源、机器人、生物、太空——这六个变量正在被 AI 同时撬动,任何一个真正的平天下级人物都不可能只做一件事。新一代平天下级人物会是<span class="accent">"超级系统整合者"</span>。</p>
+
+    <h4 class="reveal">2. 时间尺度从"10 年改变一个行业"变成"3 年改变整个生产力结构"</h4>
+    <p class="reveal">从 GPT-3.5 到现在的前沿模型,3 年时间已经把"什么是可能的"重写了好几遍。</p>
+
+    <h4 class="reveal">3. 必须直面"超人类智能"这个根本命题</h4>
+    <p class="reveal">过去的平天下级人物面对的是"如何用工具放大人类能力"的问题。AI 时代的平天下级人物面对的是<span class="accent">"如何与一种可能超越人类的智能共存"</span>的问题。这个命题的层级高于过去所有工业革命的命题。</p>
+
+    <h4 class="reveal">4. 影响力来源从"资本+组织"变成"思想+技术+组织+资本"的四重复合</h4>
+    <p class="reveal">四个要素全部具备的人,在历史上极少。但 AI 时代要求这种复合型人物。</p>
+
+    <h4 class="reveal">5. 必然要面对"权力的根本性集中"问题</h4>
+    <p class="reveal">掌握最强 AI 的组织,在短时间内可以获得相对于其他组织的巨大不对称优势。这是过去最接近核武器的类比,但 AI 的扩散性和应用面比核武器广得多。</p>
+
+    <h3 class="reveal">当前最接近平天下级的 AI 领导者</h3>
+    <p class="reveal">六位代表性人物。Hassabis 一卡略有强调,因为他是上文中被认为最接近完整平天下级原型的人。点击卡片展开完整诊断。</p>
+
+    <div class="ailead reveal" id="ailead">
+
+      <!-- Hassabis (featured) -->
+      <article class="ai featured" aria-expanded="false">
+        <span class="ai-badge">完整原型 · 诺奖</span>
+        <div class="ai-name">Demis Hassabis</div>
+        <div class="ai-org">Google DeepMind</div>
+        <div class="ai-tag">思想、问题、权力自觉皆高</div>
+        <div class="ai-quote">学者 + 创业者 + 游戏设计师 + 神经科学家的罕见复合体——AlphaFold 拿下诺贝尔化学奖。</div>
+        <div class="ai-bars" aria-hidden="true">
+          <div class="bar"><i style="width:100%"></i></div>
+          <div class="bar"><i style="width:90%"></i></div>
+          <div class="bar"><i style="width:80%"></i></div>
+          <div class="bar"><i style="width:80%"></i></div>
+          <div class="bar"><i style="width:70%"></i></div>
+        </div>
+        <div class="ai-labels"><span>层级</span><span>承诺</span><span>原创</span><span>权力</span><span>制度</span></div>
+        <div class="ai-body">
+          <div class="ai-body-inner">
+            <p>他可能是 AI 时代最完整的<span class="accent">"平天下级原型"</span>——4 岁国际象棋神童,17 岁主程设计百万销量游戏,剑桥计算机双 First,创立 Elixir Studios,29 岁回到学术界读神经科学 PhD(论文被《Science》评为 2007 年十大突破)。</p>
+            <p>2010 年创立 DeepMind,提出"Solve intelligence. Then use it to solve everything else."。AlphaGo 提前 10 年攻克围棋;AlphaFold 把已知蛋白质结构从 17 万种扩展到 2 亿种,2024 年获得诺贝尔化学奖——<strong>人类历史上第一次有 AI 工作直接获得诺贝尔自然科学奖</strong>。</p>
+            <p>思想原创性、问题层级、权力自觉都很高。是这一代最接近古典平天下级原型的人。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Amodei -->
+      <article class="ai" aria-expanded="false">
+        <div class="ai-name">Dario Amodei</div>
+        <div class="ai-org">Anthropic</div>
+        <div class="ai-tag">思想纯度最高</div>
+        <div class="ai-quote">这一代 AI 领导者中思想纯度最高的人之一——把 AI 安全作为公司核心。</div>
+        <div class="ai-bars" aria-hidden="true">
+          <div class="bar"><i style="width:90%"></i></div>
+          <div class="bar"><i style="width:90%"></i></div>
+          <div class="bar"><i style="width:80%"></i></div>
+          <div class="bar"><i style="width:100%"></i></div>
+          <div class="bar"><i style="width:70%"></i></div>
+        </div>
+        <div class="ai-labels"><span>层级</span><span>承诺</span><span>原创</span><span>权力</span><span>制度</span></div>
+        <div class="ai-body">
+          <div class="ai-body-inner">
+            <p>他对 AI 安全、对齐、可解释性的思考,显示出真正的平天下级思维。</p>
+            <p>在很多人把 AI 安全视为"不接地气的学术问题"时,他坚持把它作为公司的核心命题。组织和资本动员能力在快速追赶。</p>
+            <p>权力自觉这一维上,他是当前所有 AI 实验室领导者里最清醒的。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Altman -->
+      <article class="ai" aria-expanded="false">
+        <div class="ai-name">Sam Altman</div>
+        <div class="ai-org">OpenAI</div>
+        <div class="ai-tag">传统平天下级野心家</div>
+        <div class="ai-quote">这一代最像"传统平天下级野心家"的人——擅长把宏大叙事和资本运作结合。</div>
+        <div class="ai-bars" aria-hidden="true">
+          <div class="bar"><i style="width:90%"></i></div>
+          <div class="bar"><i style="width:80%"></i></div>
+          <div class="bar"><i style="width:60%"></i></div>
+          <div class="bar"><i style="width:50%"></i></div>
+          <div class="bar"><i style="width:60%"></i></div>
+        </div>
+        <div class="ai-labels"><span>层级</span><span>承诺</span><span>原创</span><span>权力</span><span>制度</span></div>
+        <div class="ai-body">
+          <div class="ai-body-inner">
+            <p>他擅长把宏大叙事和资本运作结合。OpenAI 的崛起在很大程度上得益于他对资本市场和公众叙事的精准把握。</p>
+            <p>但思想深度和组织稳定性尚待验证。2023 年的董事会动荡显示出组织治理层面的脆弱性。</p>
+            <p>他是野心强但内在原创性相对不足的样本——这与早期"传统平天下级"人物的画像最接近。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Musk -->
+      <article class="ai" aria-expanded="false">
+        <div class="ai-name">Elon Musk</div>
+        <div class="ai-org">xAI · Tesla · SpaceX</div>
+        <div class="ai-tag">多维满分 · 权力短板</div>
+        <div class="ai-quote">多个维度满分,但权力自觉和制度建设是显著短板。</div>
+        <div class="ai-bars" aria-hidden="true">
+          <div class="bar"><i style="width:100%"></i></div>
+          <div class="bar"><i style="width:90%"></i></div>
+          <div class="bar"><i style="width:70%"></i></div>
+          <div class="bar"><i style="width:40%"></i></div>
+          <div class="bar"><i style="width:50%"></i></div>
+        </div>
+        <div class="ai-labels"><span>层级</span><span>承诺</span><span>原创</span><span>权力</span><span>制度</span></div>
+        <div class="ai-body">
+          <div class="ai-body-inner">
+            <p>从一开始就以"平天下"为出发点选行业,问题层级满分,长期承诺极高。能源、跨星球生存、脑机接口、AI——四条战线同时推进。</p>
+            <p>但权力自觉是显著短板:他把个人意志投射成"人类意志"。制度建设也不稳定——他可以建立伟大的公司,也可以在 72 小时内毁掉 Twitter 的一半。</p>
+            <p>这种<span class="accent">"野心溢出能力"</span>的状态,本身就是当下时代的典型张力。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Huang -->
+      <article class="ai" aria-expanded="false">
+        <div class="ai-name">黄仁勋</div>
+        <div class="ai-org">NVIDIA</div>
+        <div class="ai-tag">伟大的治国者</div>
+        <div class="ai-quote">已经在做平天下级的事,但他自己的定位更接近"伟大的治国者"。</div>
+        <div class="ai-bars" aria-hidden="true">
+          <div class="bar"><i style="width:80%"></i></div>
+          <div class="bar"><i style="width:100%"></i></div>
+          <div class="bar"><i style="width:60%"></i></div>
+          <div class="bar"><i style="width:70%"></i></div>
+          <div class="bar"><i style="width:90%"></i></div>
+        </div>
+        <div class="ai-labels"><span>层级</span><span>承诺</span><span>原创</span><span>权力</span><span>制度</span></div>
+        <div class="ai-body">
+          <div class="ai-body-inner">
+            <p>在一件事(并行计算)上坚持了 30 年,从游戏显卡一路做到 AI 算力的底层基础设施。这种单点深度配合长期主义,让他赶上了百年级别的范式转移。</p>
+            <p>组织设计(扁平、60 个直接下属)、技术节奏(每两年一代架构)、生态(CUDA 开发者社区)都是教科书级别。</p>
+            <p>制度建设维度近满分——但思想原创性相对克制。他的画像是<span class="accent">"治国的极致"</span>而非"平天下的野心"。</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 梁文锋 -->
+      <article class="ai" aria-expanded="false">
+        <div class="ai-name">梁文锋</div>
+        <div class="ai-org">DeepSeek</div>
+        <div class="ai-tag">效率革命的新范式</div>
+        <div class="ai-quote">2024–2025 最让全球 AI 界意外的人物——用更少资源做出第一梯队模型。</div>
+        <div class="ai-bars" aria-hidden="true">
+          <div class="bar"><i style="width:80%"></i></div>
+          <div class="bar"><i style="width:70%"></i></div>
+          <div class="bar"><i style="width:70%"></i></div>
+          <div class="bar"><i style="width:60%"></i></div>
+          <div class="bar"><i style="width:60%"></i></div>
+        </div>
+        <div class="ai-labels"><span>层级</span><span>承诺</span><span>原创</span><span>权力</span><span>制度</span></div>
+        <div class="ai-body">
+          <div class="ai-body-inner">
+            <p>DeepSeek-V3/R1 证明了<span class="accent">用更少资源做出第一梯队模型</span>是可能的。这件事本身的意义可能比模型本身更大——它改变了"AI = 美国资本密集型游戏"的叙事。</p>
+            <p>是"以效率突破而非算力堆积"路径的早期代表。中国如果出现 AI 时代的平天下级人物,大概率会沿着他的路径展开。</p>
+            <p>下一个真正的"平天下级"人物,很可能现在还没有进入大众视野。</p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <h3 class="reveal">AI 走入物理世界:正在发生的根本性重构</h3>
+    <p class="reveal"><strong>真正的物理 AI =</strong> 拥有物理身体 + 能够感知环境 + 能够采取行动 + 行动结果会改变物理世界状态 + 这个完整闭环由 AI 模型驱动而非人工预编程。</p>
+    <p class="reveal">技术核心是 <span class="accent">VLA 模型(Vision-Language-Action Model)</span>——摄像头看到环境 → 语言指令告诉它做什么 → 模型实时生成具体的关节运动指令 → 机器人执行 → 再次观察 → 调整下一步。这是一种<strong>端到端的智能</strong>,机器人可以应对开放环境的任意新任务,不需要为每个新场景重新编程。这是"专用机器人"到"通用机器人"的根本跳跃,类似从专用计算机到通用计算机的跳跃。</p>
+
+    <h4 class="reveal">五条同时推进的赛道(2026 年中状态)</h4>
+    <ul class="reveal">
+      <li><strong>人形机器人</strong>:Figure 02 在 BMW 工厂经过 11 个月部署,参与了 30,000 多辆汽车的生产;1X NEO 开始向消费者家庭交付;Tesla Optimus Gen 3 量产推迟到 2026 年夏季;Unitree(宇树)2026 年目标出货 1–2 万台,在春晚展示了 G1 完全自主完成的功夫表演和 3 米空翻。</li>
+      <li><strong>自动驾驶</strong>:Waymo 在多个美国城市提供日常 robotaxi 服务,中国的小鹏、华为、Momenta 在快速推进。</li>
+      <li><strong>专用具身 AI</strong>:仓储物流、农业、餐饮、建筑、医疗。</li>
+      <li><strong>无人机与低空经济</strong>:中国在 2024–2025 年开放了大量低空空域作为经济试点区。</li>
+      <li><strong>环境智能与可穿戴</strong>:Meta Ray-Ban、Apple Vision Pro 等,目标是让"屏幕"消失。</li>
+    </ul>
+
+    <h4 class="reveal">三个层次的社会重构</h4>
+    <ul class="reveal">
+      <li><strong>劳动结构</strong>:20 世纪自动化替代了"重复性体力劳动",21 世纪初 AI 替代了"重复性脑力劳动"。物理 AI 将替代<span class="accent">"非重复性体力劳动 + 需要环境感知的脑力劳动"</span>——这是过去所有自动化都无法触及的领域。涉及全球数亿人的就业。</li>
+      <li><strong>城市形态</strong>:停车场消失、物流仓库下沉到社区、居住与工作的边界模糊、老龄化城市重新可居住、超级城市 vs 小城镇的分化加剧。</li>
+      <li><strong>生活方式</strong>:"家务"作为一个范畴消失;老年人独立生活成为可能;儿童陪伴方式改变;人际关系重新被定义。</li>
+    </ul>
+
+    <span class="keyline reveal">今天的物理 AI 处于 1995–1998 年的互联网阶段。真正爆发要等 3–5 年(2028–2030),全面渗透要等 8–12 年(2034–2038)。</span>
+
+    <h3 class="reveal">中国的三个变量(2026 年中状态)</h3>
+
+    <h4 class="reveal">变量一:算力 — 从被卡死到部分突破,但差距在结构性扩大</h4>
+    <p class="reveal">SMIC 在 5nm 级 N+3 工艺实现高产量生产,但良率仍只有 30% 左右。华为昇腾 950 系列首次集成国产 HBM。但 NVIDIA 最强 AI 芯片当前比华为最强约 5 倍强,<strong>到 2027 年这个差距会扩大到 17 倍</strong>。中国 2026 年能生产的先进 AI 芯片,大约只有美国总产能的 1–2%。</p>
+    <p class="reveal">算力差距是结构性的,5–10 年内无法弥合。但中国走出了一条不一样的路:用更多中端芯片 + 软件层的极致优化,部分对冲硬件劣势。</p>
+
+    <h4 class="reveal">变量二:模型 — 已经事实上成为全球第一梯队</h4>
+    <ul class="reveal">
+      <li>DeepSeek V4:2026 年 4 月发布,1.6T 参数,正在重塑全球 API 定价</li>
+      <li>Kimi K2.6:首个在 SWE-Bench Pro 编码基准上击败 GPT-5.4 的开源模型</li>
+      <li>Qwen 3.6:每百万 token 仅 0.38 美元就实现接近前沿的编码能力</li>
+      <li>GLM-5.1:完全在华为昇腾芯片上训练,证明了"不用 NVIDIA 也能训前沿模型"</li>
+      <li>Step 3.5 Flash:比 GPT-4o 便宜 25 倍</li>
+    </ul>
+    <p class="reveal">中国实验室目前在开源模型领域占据全球前 5 中的 4 席。在闭源模型上,与 OpenAI、Anthropic、Google 的差距从"几个月"压缩到"几天"。</p>
+    <p class="reveal">根本原因:<span class="accent">被算力封锁逼出来的"效率革命"</span>。约束反而成了创新源。</p>
+
+    <h4 class="reveal">变量三:人才 — 长期最大的隐忧</h4>
+    <p class="reveal">顶级研究人才仍以美国为中心,但回流正在发生(中国 AI 公司给顶级研究员的包裹已达 100 万美元/年)。中端工程师和应用人才是中国的相对优势。政策环境(学术自由度、数据使用规则、资本对长期主义的支持、国际化程度)是更深的结构性变量。</p>
+
+    <h3 class="reveal">中国会不会出现 AI 时代的平天下级人物?</h3>
+    <p class="reveal"><span class="accent">会,但不一定是今天想象的那种形态。</span></p>
+    <p class="reveal">美式平天下级人物的标准模板(Altman、Amodei、Hassabis)是"在最前沿做基础研究突破"。这条路在中国出现的难度较大。但中国可能出现一种新型的平天下级人物——<strong>"以应用规模和效率革命改变全球 AI 产业格局"</strong> 的人。梁文锋是这条路径的早期样本。</p>
+    <p class="reveal">如果中国真的出现 AI 时代的平天下级人物,最可能的画像是:从效率突破而非算力堆积出发;在某个垂直领域做到全球第一;能在中美技术博弈中找到一个"两边都需要"的不可替代位置;有跨文化的视野和表达能力。</p>
+    <p class="reveal">真正的"中国版 Hassabis/Amodei"还没有出现。如果未来 5 年要出现,大概率会在<span class="accent">具身智能、AI 应用层产品、或 AI 基础设施</span>这三个领域。</p>
+  </section>
+
+  <hr>
+
+  <!-- ==================== SECTION 9 ==================== -->
+  <section id="s9" data-nav="s9">
+    <div class="section-num reveal">09 · The Decision Model</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#s9" aria-label="复制链接">#</a>
+      决策模型——如何判断"谁是真正的范式重构者"
+    </h2>
+
+    <p class="reveal" data-delay="2">这是这篇长文最实操、最值得反复使用的部分。三层组合:五维诊断 + 三个反例测试 + 野心/能力/场景三维总判。</p>
+
+    <h3 class="reveal">五维诊断:每一维 0–10 分,总分越高越接近平天下级</h3>
+    <p class="reveal">下方是一个可交互的雷达图。点击预设按钮可载入对应人物的诊断分数,或自行拖动滑块为任意人物(或自己)打分。</p>
+
+    <div class="radar reveal" id="radar">
+      <div class="radar-presets">
+        <button data-preset="mao" type="button">毛泽东</button>
+        <button data-preset="deng" type="button">邓小平</button>
+        <button data-preset="hassabis" type="button">Hassabis</button>
+        <button data-preset="musk" type="button">Musk</button>
+        <button data-preset="altman" type="button">Altman</button>
+        <button data-preset="blank" type="button" class="active">空白 · 自填</button>
+      </div>
+      <div class="radar-grid">
+        <div class="radar-svg-wrap">
+          <svg class="radar-svg" id="radarSVG" viewBox="0 0 400 400" aria-hidden="true">
+            <polygon class="ring r1" points="200,70 324,160 276,305 124,305 76,160"/>
+            <polygon class="ring r2" points="200,102 293,170 257,279 143,279 107,170"/>
+            <polygon class="ring r3" points="200,135 242,180 238,253 162,253 158,180"/>
+            <polygon class="ring r4" points="200,167 231,190 219,226 181,226 169,190"/>
+            <line class="axis" x1="200" y1="200" x2="200" y2="70"/>
+            <line class="axis" x1="200" y1="200" x2="324" y2="160"/>
+            <line class="axis" x1="200" y1="200" x2="276" y2="305"/>
+            <line class="axis" x1="200" y1="200" x2="124" y2="305"/>
+            <line class="axis" x1="200" y1="200" x2="76" y2="160"/>
+            <polygon id="radarPoly" class="poly" points="200,200 200,200 200,200 200,200 200,200"/>
+            <g id="radarPoints">
+              <circle class="pt" r="3.5" cx="200" cy="200"/>
+              <circle class="pt" r="3.5" cx="200" cy="200"/>
+              <circle class="pt" r="3.5" cx="200" cy="200"/>
+              <circle class="pt" r="3.5" cx="200" cy="200"/>
+              <circle class="pt" r="3.5" cx="200" cy="200"/>
+            </g>
+            <text class="lbl" x="200" y="54" text-anchor="middle">问题层级</text>
+            <text class="lbl" x="338" y="156" text-anchor="start">时间承诺</text>
+            <text class="lbl" x="290" y="328" text-anchor="middle">思想原创性</text>
+            <text class="lbl" x="110" y="328" text-anchor="middle">权力自觉</text>
+            <text class="lbl" x="62" y="156" text-anchor="end">制度建设</text>
+          </svg>
+        </div>
+        <div>
+          <div class="radar-sliders">
+            <div class="slider"><label>问题层级</label><input type="range" min="0" max="10" step="1" value="0"><div class="val">0</div></div>
+            <div class="slider"><label>时间承诺</label><input type="range" min="0" max="10" step="1" value="0"><div class="val">0</div></div>
+            <div class="slider"><label>思想原创性</label><input type="range" min="0" max="10" step="1" value="0"><div class="val">0</div></div>
+            <div class="slider"><label>权力自觉</label><input type="range" min="0" max="10" step="1" value="0"><div class="val">0</div></div>
+            <div class="slider"><label>制度建设</label><input type="range" min="0" max="10" step="1" value="0"><div class="val">0</div></div>
+          </div>
+          <div class="radar-summary">
+            <div>
+              <div class="score" id="radarScore">0 / 50</div>
+              <div class="level" id="radarLevel">——</div>
+            </div>
+            <div class="radar-thresholds">阈值 · 45 / 35 / 25</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="reveal">维度释义</h4>
+    <ul class="reveal">
+      <li><strong>问题层级</strong>:0–3 行业优化 / 4–6 行业底层重构 / 7–8 多行业平台级 / 9–10 重新定义人类根本变量</li>
+      <li><strong>时间承诺</strong>:0–3 求 5 年内变现 / 4–6 中长期事业 / 7–8 15–30 年明确终身 / 9–10 跨代承诺,有"后我"思考</li>
+      <li><strong>思想原创性</strong>:0–3 执行别人框架 / 4–6 整合 / 7–8 局部原创 / 9–10 提出可被长期讨论的原创思想体系</li>
+      <li><strong>权力自觉</strong>:0–3 只想要权力 / 4–6 基本伦理意识 / 7–8 主动设计自我约束 / 9–10 视合法性与可问责性为核心</li>
+      <li><strong>制度建设</strong>:0–3 高度个人依赖 / 4–6 有组织无深层制度 / 7–8 自洽文化机制 / 9–10 跨代演化的机构而非公司</li>
+    </ul>
+
+    <p class="reveal"><strong>总分判读</strong>:<span class="accent">45+</span> 历史级平天下;<span class="accent">35–44</span> 进行中的平天下级;<span class="accent">25–34</span> 野心在平天下但能力未达;<span class="accent">25 以下</span> 不在这个层级。</p>
+
+    <h3 class="reveal">三个反例测试:验证判断是否被表象误导</h3>
+    <p class="reveal">光打分不够,还要用反例测试。这是更关键的部分。点击展开每个测试的案例清单。</p>
+
+    <div class="tests reveal" id="tests">
+
+      <article class="test" aria-expanded="false">
+        <div class="t-head">
+          <div class="t-q">测试一:"如果他明天死了,他做的事还能继续吗?"</div>
+          <div class="t-toggle">案例</div>
+        </div>
+        <div class="t-body">
+          <div class="t-body-inner">
+            <p>这个测试非常残酷但极其有效。它直接测量第五维(制度建设)的真实水平。</p>
+            <div class="verdicts">
+              <div class="verdict"><span class="who">苹果(乔布斯之后)</span><span class="vd partial">部分通过 · 创新性下降</span></div>
+              <div class="verdict"><span class="who">伯克希尔(Greg Abel 接棒)</span><span class="vd pass">通过</span></div>
+              <div class="verdict"><span class="who">特斯拉(若马斯克离开)</span><span class="vd fail">不通过 · 股价立崩</span></div>
+              <div class="verdict"><span class="who">DeepMind(Google 支撑)</span><span class="vd unclear">模糊</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="test" aria-expanded="false">
+        <div class="t-head">
+          <div class="t-q">测试二:"他在最强势的时候,有没有主动放弃过权力?"</div>
+          <div class="t-toggle">案例</div>
+        </div>
+        <div class="t-body">
+          <div class="t-body-inner">
+            <p>平天下级人物的关键标志之一,是<span class="accent">他们对权力有"使用而不依附"的能力</span>。</p>
+            <div class="verdicts">
+              <div class="verdict"><span class="who">邓小平 · 1989 退出党中央军委</span><span class="vd pass">通过</span></div>
+              <div class="verdict"><span class="who">华盛顿 · 两届总统后主动退休</span><span class="vd pass">通过</span></div>
+              <div class="verdict"><span class="who">比尔·盖茨 · 50 岁退微软转基金会</span><span class="vd pass">通过</span></div>
+              <div class="verdict"><span class="who">马斯克 · 对 Twitter / xAI 的占有方式</span><span class="vd fail">不通过</span></div>
+              <div class="verdict"><span class="who">普京 · 三次违反任期限制</span><span class="vd fail">彻底不通过</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="test" aria-expanded="false">
+        <div class="t-head">
+          <div class="t-q">测试三:"他在没有掌声的时候,还在做什么?"</div>
+          <div class="t-toggle">案例</div>
+        </div>
+        <div class="t-body">
+          <div class="t-body-inner">
+            <p>真正的平天下级人物有一个共同特征:他们在最孤独、最不被理解、甚至被广泛嘲笑的时候,仍然在做同样的事。这个测试检验的是<span class="accent">内在动机</span>而非外在表现。</p>
+            <div class="verdicts">
+              <div class="verdict"><span class="who">马斯克 · 2008 危机时把所有个人资产投进去</span><span class="vd pass">通过</span></div>
+              <div class="verdict"><span class="who">Bezos · 亚马逊 10 年不盈利时坚持长期投资</span><span class="vd pass">通过</span></div>
+              <div class="verdict"><span class="who">Dario Amodei · AI 安全被嘲笑时坚持以其为核心</span><span class="vd pass">通过</span></div>
+            </div>
+            <p style="margin-top:1em">平天下级人物做事不是为了被认可,他们做事是因为他们无法不做。</p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <h3 class="reveal">三维总判:野心、能力、场景</h3>
+    <p class="reveal">通过六位政治家和数位企业家的对比,可以总结出一个更普遍的判断:<span class="accent">判断一个人的层次,必须同时看"野心"、"能力"、"场景难度"三个维度,然后综合判断</span>。</p>
+    <ul class="reveal">
+      <li><strong>野心</strong>:他想做的事在哪个层级?</li>
+      <li><strong>能力</strong>:他实际能调动的资源、人才、判断力到哪个层级?</li>
+      <li><strong>场景</strong>:他面对的历史条件允许他做到什么程度?</li>
+    </ul>
+
+    <div class="aamap reveal">
+      <div class="aamap-wrap">
+        <svg class="aamap-svg" id="aamapSVG" viewBox="0 0 500 400" aria-hidden="true">
+          <line x1="50" y1="350" x2="450" y2="50" class="aamap-diag"/>
+          <line class="aamap-axisline" x1="50" y1="50" x2="50" y2="350"/>
+          <line class="aamap-axisline" x1="50" y1="350" x2="450" y2="350"/>
+          <text class="aamap-tick" x="150" y="370" text-anchor="middle">立身</text>
+          <text class="aamap-tick" x="250" y="370" text-anchor="middle">齐家</text>
+          <text class="aamap-tick" x="350" y="370" text-anchor="middle">治国</text>
+          <text class="aamap-tick" x="430" y="370" text-anchor="middle">平天下</text>
+          <text class="aamap-tick" x="42" y="278" text-anchor="end">立身</text>
+          <text class="aamap-tick" x="42" y="203" text-anchor="end">齐家</text>
+          <text class="aamap-tick" x="42" y="128" text-anchor="end">治国</text>
+          <text class="aamap-tick" x="42" y="63" text-anchor="end">平天下</text>
+          <text class="aamap-axis" x="250" y="392" text-anchor="middle">能力 · CAPABILITY →</text>
+          <text class="aamap-axis" x="22" y="200" text-anchor="middle" transform="rotate(-90,22,200)">野心 · AMBITION →</text>
+          <text class="aamap-anno" x="90" y="86" text-anchor="start">野心 &gt; 能力</text>
+          <text class="aamap-anno" x="410" y="324" text-anchor="end">能力 &gt; 野心</text>
+
+          <g data-name="孙中山">
+            <circle cx="170" cy="80" r="6" class="aamap-pt"/>
+            <text class="aamap-label" x="180" y="83">孙中山</text>
+          </g>
+          <g data-name="蒋介石">
+            <circle cx="310" cy="100" r="6" class="aamap-pt"/>
+            <text class="aamap-label" x="320" y="103">蒋介石</text>
+          </g>
+          <g data-name="毛泽东">
+            <circle cx="410" cy="68" r="7" class="aamap-pt highlight"/>
+            <text class="aamap-label" x="403" y="58" text-anchor="end">毛泽东</text>
+          </g>
+          <g data-name="邓小平">
+            <circle cx="420" cy="92" r="7" class="aamap-pt highlight"/>
+            <text class="aamap-label" x="413" y="108" text-anchor="end">邓小平</text>
+          </g>
+          <g data-name="Hassabis">
+            <circle cx="378" cy="92" r="6" class="aamap-pt"/>
+            <text class="aamap-label" x="386" y="95">Hassabis</text>
+          </g>
+          <g data-name="Musk">
+            <circle cx="362" cy="62" r="6" class="aamap-pt"/>
+            <text class="aamap-label" x="370" y="65">Musk</text>
+          </g>
+          <g data-name="雷军">
+            <circle cx="338" cy="180" r="6" class="aamap-pt"/>
+            <text class="aamap-label" x="348" y="183">雷军</text>
+          </g>
+        </svg>
+        <div class="aamap-tooltip" id="aamapTip"></div>
+      </div>
+      <div class="aamap-legend">
+        <div class="grp"><span class="swatch"></span> 主要参照点</div>
+        <div class="grp"><span class="swatch-line"></span> 野心 = 能力(健康对齐)</div>
+      </div>
+    </div>
+
+    <p class="reveal"><strong>孙中山</strong>的悲剧是<span class="accent">野心 &gt; 能力</span>——他看到了平天下层级的目标,但没有平天下层级的执行力。</p>
+    <p class="reveal"><strong>蒋介石</strong>的悲剧是<span class="accent">能力 ≈ 治国级,但场景需要平天下级</span>——他在一个常态时代会是合格甚至优秀的领导人,但他遇到的是大变局,常规能力不够用。</p>
+    <p class="reveal"><strong>毛泽东</strong>的复杂性是<span class="accent">野心、能力、场景都在平天下层级,但人格阴影巨大</span>——这让他既创造了奇迹也制造了灾难。</p>
+    <p class="reveal"><strong>邓小平</strong>的成就是<span class="accent">能力恰好匹配场景,且没有野心溢出能力</span>——他知道自己能做什么、不能做什么,这种自我认知本身就是平天下级人物最稀缺的品质。</p>
+
+    <span class="keyline reveal">历史从来不会给一个人"完整的舞台"。每个人都是在被分配到的那个时代场景里,用被允许使用的资源,做能做的事。</span>
+  </section>
+
+  <hr>
+
+  <!-- ==================== FINAL CODA ==================== -->
+  <section id="coda2" data-nav="coda2" class="final-coda">
+    <div class="section-num reveal half-coda-num">最终结语 · Coda II</div>
+    <h2 class="reveal" data-delay="1">
+      <a class="anchor" href="#coda2" aria-label="复制链接">#</a>
+      最终结语
+    </h2>
+
+    <p class="reveal" data-delay="2">把企业家、政治家、AI 时代的范式重构者放在同一个框架里看,会发现一件事:<span class="accent">层级的判断,本质上是对一个人与他所处时代之间关系的判断</span>。</p>
+
+    <p class="reveal">伟大不是个人属性,而是一种<strong>人与时代的匹配</strong>。同样一个人,放在不同的时代,会有完全不同的高度。同样的时代,放在不同的人手里,会展开完全不同的可能性。</p>
+
+    <p class="reveal">我们正处于一个<span class="accent">层级机会异常密集的时代</span>。多个百年级变量同时变化:智能、能源、生物、太空、国际秩序、货币。每一个变量都会催生 1–3 位平天下级人物。这个时期在人类历史上不常见,上一次类似的窗口是 1880–1920,再上一次是 1490–1550。</p>
+
+    <p class="reveal">在这样的时代里,<strong>判断别人的能力,最终是为了更清楚地判断自己</strong>。所有这些框架——五维诊断、三个反例测试、野心/能力/场景的三维总判——都不只是用来评价历史人物,而是用来回答一个更根本的问题:</p>
+
+    <span class="keyline reveal" style="font-size:1.2em">在这个充满平天下级机会的时代,所处的位置在哪里?野心、能力、场景是否对齐?愿意为什么样的事业,承担"被时代误解"的代价?</span>
+
+    <p class="reveal" style="text-align:center; font-style:italic; color:var(--muted); margin-top:3rem;">层级的高度,永远是人格的延伸。</p>
   </section>
 
   <footer>
@@ -1108,6 +2246,151 @@ p, li, h2, h3, h4 { word-break:normal; overflow-wrap:break-word; }
       }
     }, 200);
   }
+
+  // ===== Politician cards =====
+  var pols = document.querySelectorAll('#pols .pol');
+  pols.forEach(function(p){
+    p.addEventListener('click', function(){
+      var ex = p.getAttribute('aria-expanded') === 'true';
+      p.setAttribute('aria-expanded', ex ? 'false' : 'true');
+    });
+  });
+
+  // ===== AI leader cards =====
+  var ais = document.querySelectorAll('#ailead .ai');
+  ais.forEach(function(a){
+    a.addEventListener('click', function(){
+      var ex = a.getAttribute('aria-expanded') === 'true';
+      a.setAttribute('aria-expanded', ex ? 'false' : 'true');
+    });
+  });
+
+  // ===== Counter test cards =====
+  var tests = document.querySelectorAll('#tests .test');
+  tests.forEach(function(t){
+    t.addEventListener('click', function(){
+      var ex = t.getAttribute('aria-expanded') === 'true';
+      t.setAttribute('aria-expanded', ex ? 'false' : 'true');
+    });
+  });
+
+  // ===== Radar chart =====
+  (function(){
+    var svg = document.getElementById('radarSVG');
+    if(!svg) return;
+
+    var PRESETS = {
+      'mao':      [10,10,10, 3, 4],
+      'deng':     [ 9, 9, 6, 9,10],
+      'hassabis': [10, 9, 8, 8, 7],
+      'musk':     [10, 9, 7, 4, 5],
+      'altman':   [ 9, 8, 6, 5, 6],
+      'blank':    [ 0, 0, 0, 0, 0]
+    };
+    var current = [0,0,0,0,0];
+
+    var CX = 200, CY = 200, R = 130;
+    function vertex(i, v){
+      var ang = -Math.PI/2 + (i * 2 * Math.PI / 5);
+      var r = R * (v / 10);
+      return [CX + r * Math.cos(ang), CY + r * Math.sin(ang)];
+    }
+
+    var poly = document.getElementById('radarPoly');
+    var dots = document.querySelectorAll('#radarPoints circle');
+    var scoreEl = document.getElementById('radarScore');
+    var levelEl = document.getElementById('radarLevel');
+    var sliderInputs = document.querySelectorAll('#radar .radar-sliders input[type=range]');
+    var sliderVals = document.querySelectorAll('#radar .radar-sliders .val');
+    var presetButtons = document.querySelectorAll('#radar .radar-presets button');
+
+    function levelText(total){
+      if(total >= 45) return '历史级 · 平天下人物';
+      if(total >= 35) return '进行中的 · 平天下级';
+      if(total >= 25) return '野心在平天下 · 能力未达';
+      if(total > 0)   return '尚未进入平天下层级';
+      return '——';
+    }
+
+    function render(){
+      var pts = current.map(function(v,i){ return vertex(i, v); });
+      poly.setAttribute('points', pts.map(function(p){ return p[0].toFixed(2)+','+p[1].toFixed(2); }).join(' '));
+      dots.forEach(function(c,i){
+        c.setAttribute('cx', pts[i][0].toFixed(2));
+        c.setAttribute('cy', pts[i][1].toFixed(2));
+      });
+      var total = current.reduce(function(a,b){ return a + b; }, 0);
+      scoreEl.textContent = Math.round(total) + ' / 50';
+      levelEl.textContent = levelText(total);
+    }
+
+    function setVals(target, animate){
+      if(animate){
+        var start = current.slice();
+        var t0 = performance.now();
+        var DUR = 600;
+        function step(now){
+          var k = Math.min(1, (now - t0) / DUR);
+          var e = 1 - Math.pow(1 - k, 3);
+          current = start.map(function(s,i){ return s + (target[i] - s) * e; });
+          sliderInputs.forEach(function(s,i){ s.value = Math.round(current[i]); });
+          sliderVals.forEach(function(v,i){ v.textContent = Math.round(current[i]); });
+          render();
+          if(k < 1) requestAnimationFrame(step);
+          else { current = target.slice(); render(); }
+        }
+        requestAnimationFrame(step);
+      } else {
+        current = target.slice();
+        sliderInputs.forEach(function(s,i){ s.value = current[i]; });
+        sliderVals.forEach(function(v,i){ v.textContent = current[i]; });
+        render();
+      }
+    }
+
+    sliderInputs.forEach(function(s, i){
+      s.addEventListener('input', function(){
+        current[i] = parseFloat(s.value);
+        sliderVals[i].textContent = s.value;
+        presetButtons.forEach(function(b){ b.classList.remove('active'); });
+        render();
+      });
+    });
+
+    presetButtons.forEach(function(b){
+      b.addEventListener('click', function(e){
+        e.stopPropagation();
+        presetButtons.forEach(function(o){ o.classList.remove('active'); });
+        b.classList.add('active');
+        var key = b.getAttribute('data-preset');
+        if(PRESETS[key]) setVals(PRESETS[key], true);
+      });
+    });
+
+    setVals([0,0,0,0,0], false);
+  })();
+
+  // ===== Ambition-ability map tooltip =====
+  (function(){
+    var svg = document.getElementById('aamapSVG');
+    var tip = document.getElementById('aamapTip');
+    if(!svg || !tip) return;
+    var wrap = svg.parentElement;
+    svg.querySelectorAll('g[data-name]').forEach(function(g){
+      g.addEventListener('mouseenter', function(){
+        tip.textContent = g.getAttribute('data-name');
+        tip.classList.add('show');
+      });
+      g.addEventListener('mousemove', function(e){
+        var rect = wrap.getBoundingClientRect();
+        tip.style.left = (e.clientX - rect.left) + 'px';
+        tip.style.top  = (e.clientY - rect.top)  + 'px';
+      });
+      g.addEventListener('mouseleave', function(){
+        tip.classList.remove('show');
+      });
+    });
+  })();
 
 })();
 </script>
